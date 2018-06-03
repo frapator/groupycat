@@ -13,8 +13,17 @@ using namespace Common;
 
 class Board  {
     private: 
+        static const char empty_square = ' ';
+        static const char pawn = 'p';
+        
+        const char p[2][6] = {
+                {'R', 'N', 'B', 'Q', 'K', 'P'},
+                {'r', 'n', 'b', 'q', 'k', 'p'}
+        };
+        
         char pos[8][8];
-        char startpos[8][8] = {
+        
+        char startpos[8][8] = { 
             {'R','P','.','.','.','.','p','r'},
             {'N','P','.','.','.','.','p','n'},
             {'B','P','.','.','.','.','p','b'},

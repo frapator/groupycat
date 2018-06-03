@@ -21,9 +21,7 @@ using namespace Common;
         for (int i=0; i<8; i++) {
             for (int j=0; j<8; j++) {
                 pos[i][j] = startpos[i][j];
-                std::cout << startpos[i][j];
             }
-            std::cout << std::endl;
         }
     }
     
@@ -105,8 +103,8 @@ using namespace Common;
         // pion passé = pion de la couleur  sans pion adverse devant sur la meme colonne ou les colonnes adjacentes
             std::vector <string> pos_list;
         char pion = (color == Color::white) ? 'P' : 'p';
-            // pour chaque pion 
-            for (int i=0; i<8; i++) {
+        // pour chaque pion 
+        for (int i=0; i<8; i++) {
             for (int j=0; j<8; j++) {
                 if (pos[i][j] == pion) {
                     // pour chaque pion
@@ -117,7 +115,7 @@ using namespace Common;
                     }
                 }
             }
-            }
+        }
             
         return pos_list;
     }
@@ -147,10 +145,46 @@ using namespace Common;
         // Fourchettes
     
         std::vector <string> Board::SearchForkPositions(Color color) {
-        // identification/recherche des pions passés de la couleur en parametre
-        // pion passé = pion de la couleur  sans pion adverse devant sur la meme colonne ou les colonnes adjacentes
+        // fourchette = piece sur une case ou plusieurs pieces adverses sont attaquées
+            
+        // algo 1 : fourchettes niveau 1 (déclinable niveau 2)
+            // parcourir les pieces de la couleur et chercher les coups possibles
+            // puis regarder apres chaque coup combien il y a de prises possibles
+            // si plusieurs prises possibles alors la case intermédiaire est une case de fourchette
+            // NON IMPLEMENTE
+            
+        // algo 2 : cases de fourchette (pas de notion de niveau pour l'atteindre)
+            // partir des pieces adverses et tagguer les cases d'ou peuvent venir chaque type de pieces
+            // si une case a plusieurs tags de meme piece, c'est une case de fourchette
+            
+            int cf[6][8][8];
+            for (int i=0; i<8; i++) {
+                for (int j=0; j<8; j++) {
+                    if (pos[i][j] == piece adverse) {
+                        
+                        // pour chaque type de piece
+                        for (int t=0; t<6; t++) {
+                            // chercher les cases a portée de [i][j]
+                            for (each case a portée de i,j) {
+                                // les tagguer
+                                cf[t][x][y] ++;
+                            }
+                        }
+                    }
+                }
+            }
+            
             std::vector <string> pos_list;
-        
+            for (int i=0; i<8; i++) {
+                for (int j=0; j<8; j++) { 
+                    for (int t=0; t<6; t++) {
+                        if (cf[t][i][j] > 0) {
+                            pos_list.push_back(Position(i,j));
+                        }
+                    }
+                }
+            }
+                
         return pos_list;
     }
     

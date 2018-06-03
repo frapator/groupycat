@@ -10,15 +10,6 @@ namespace Common {
 
     static Color nextColor(Color pColor);
 
-    class Position {
-        private:
-            int i;
-            int j;
-            
-        public:
-            std::string toString();
-    };
-    
 }
 
 #endif
