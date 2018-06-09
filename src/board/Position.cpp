@@ -9,12 +9,17 @@ std::string Position::toString() {
         return std::string(coords);
     }
     
-std::vector <std::string> Position::GetKDestinations() {
-    std::vector <std::string> pos_list;
+std::vector <Position> Position::GetKDestinations() {
+    std::vector <Position> pos_list;
     
-    // x+2,y-1 etc
-    
-    // TODO
+    if (x+2 < 8 && y + 1 < 8) pos_list.push_back(Position(x+2, y+1));
+    if (x+2 < 8 && y - 1 >= 0) pos_list.push_back(Position(x+2, y-1));
+    if (x+1 < 8 && y + 2 < 8) pos_list.push_back(Position(x+1, y+2));
+    if (x+1 < 8 && y - 2 >= 0) pos_list.push_back(Position(x+1, y-2));
+    if (x-1 >= 0 && y + 2 < 8) pos_list.push_back(Position(x-1, y+2));
+    if (x-1 >= 0 && y - 2 >= 0) pos_list.push_back(Position(x-1, y-2));
+    if (x-2 >= 0 && y + 1 < 8) pos_list.push_back(Position(x-2, y+1));
+    if (x-2 >= 0 && y - 1 >= 0) pos_list.push_back(Position(x-2, y-1));
     
     return pos_list;
 };

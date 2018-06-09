@@ -10,8 +10,9 @@ class Position {
             int y;
             
         public:
+            Position(int i, int j) : x(i), y(j) { };
             std::string toString();
-            std::vector <std::string> GetKDestinations();
+            std::vector <Position> GetKDestinations();
     };
 
 #endif
