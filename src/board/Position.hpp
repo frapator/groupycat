@@ -5,11 +5,12 @@
 
 class Position {
         private:
-            int i;
-            int j;
+            int x;
+            int y;
             
         public:
             std::string toString();
+            std::vector <string> GetKDestinations();
     };
 
 #endif

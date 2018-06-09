@@ -5,11 +5,15 @@
 
 #include "Board.hpp"
 
-#include "../common/Common.cpp"
+#include "../common/Common.hpp"
 #include "AMove.hpp"
 
 using namespace std;
 using namespace Common;
+
+    Color Board::nextColor() {
+        return (trait == Color::white) ? Color::black : Color::white;
+    }
 
     char Board::PionAdverse() {
         return (trait== Color::white) ? 'p' : 'P';
@@ -79,67 +83,9 @@ using namespace Common;
     // exemples : clouage, pion passé, case de fourchette, piece non protegee, 
     // pour chacune, des coups candidats doivent etre proposés
     
-    // fonctions de recherche
-    bool Board::isPassedPawn(Color color, int x, int y) {
-        int xmin = x - 1 < 0 ? 0 : x - 1;
-        int xmax = x + 1 > 7 ? 7 : x + 1;
-        int ymin = (color == Color::white) ? (y + 1 > 7 ? 7 : y + 1) : 0;
-        int ymax = (color == Color::white) ? 7 : (y - 1 < 0 ? 0 : y - 1);
-        bool found_pion_adverse = false;
-        char pion_adverse = (color == Color::white) ? 'p' : 'P';
-        for (int i=xmin; i<xmax; i++) {
-            for (int j=ymin; j<ymax; j++) {
-                if (pos[i][j] == pion_adverse) {
-                    found_pion_adverse = true;
-                }
-            }
-        }
-        return ! found_pion_adverse;
-    }
-    
-    // pion passé
-        std::vector <string> Board::SearchPionsPassesPositions(Color color) {
-        // identification/recherche des pions passés de la couleur en parametre
-        // pion passé = pion de la couleur  sans pion adverse devant sur la meme colonne ou les colonnes adjacentes
-            std::vector <string> pos_list;
-        char pion = (color == Color::white) ? 'P' : 'p';
-        // pour chaque pion 
-        for (int i=0; i<8; i++) {
-            for (int j=0; j<8; j++) {
-                if (pos[i][j] == pion) {
-                    // pour chaque pion
-                    if (isPassedPawn(color, i,j)) {
-                        // pion passé
-                            if (Common::debug) cout << "pion passé : " << i << "," << j << endl;
-                        pos_list.push_back(Position(i,j));
-                    }
-                }
-            }
-        }
-            
-        return pos_list;
-    }
-    
-    // recherches de coups
-    
-        std::vector <AMove> Board::SearchPionPasseAttackMoves(Color color, string pos) {
-        // recherche les coups pour appuyer le pion passé en attaque/Defense
-        
-        
-        // pour chacun des pions passés en déduire une liste de coups
-            std::vector <AMove> moves;
-            
-        return moves;
-    }
-    
-        std::vector <AMove> Board::SearchPionPasseDefenseMoves(Color color, string pos) {
-        // recherche les coups pour appuyer le pion passé en attaque/Defense
-        
-        
-        // pour chacun des pions passés en déduire une liste de coups
-            std::vector <AMove> moves;
-            
-        return moves;
+     // fonctions de recherche
+    bool Board::IsPieceAdverse(int x, int y) {
+            return trait == Color::white ? pos[x][y] >= 'a' && pos[x][y] <= 'z' : pos[x][y] >= 'A' && pos[x][y] <= 'Z'; 
     }
     
         // Fourchettes
@@ -160,15 +106,16 @@ using namespace Common;
             int cf[6][8][8];
             for (int i=0; i<8; i++) {
                 for (int j=0; j<8; j++) {
-                    if (pos[i][j] == piece adverse) {
+                    if (IsPieceAdverse(i,j)) {
                         
                         // pour chaque type de piece
                         for (int t=0; t<6; t++) {
                             // chercher les cases a portée de [i][j]
-                            for (each case a portée de i,j) {
+                            /*
+                             for (each case a portée de i,j) {
                                 // les tagguer
                                 cf[t][x][y] ++;
-                            }
+                            }*/
                         }
                     }
                 }
@@ -178,7 +125,7 @@ using namespace Common;
             for (int i=0; i<8; i++) {
                 for (int j=0; j<8; j++) { 
                     for (int t=0; t<6; t++) {
-                        if (cf[t][i][j] > 0) {
+                        if (cf[t][i][j] >= 2) {
                             pos_list.push_back(Position(i,j));
                         }
                     }
@@ -226,7 +173,7 @@ using namespace Common;
         std::vector <string> positions; // les positions clefs pour la recherche de coups
         std::vector <AMove> moves;
         std::vector <AMove> lMoves;
-        Color nextColor = Common::nextColor(trait);
+        Color lNextColor = nextColor();
         
         // Ajout des coups d'attaque des pions passés
         if (Common::debug) cout << "SearchPionsPassesPositions ..." << endl;
@@ -239,9 +186,9 @@ using namespace Common;
         }
         // Ajout des coups de defense des pions passés adverses
         if (Common::debug) cout << "SearchPionsPassesPositions ..." << endl;
-        positions = SearchPionsPassesPositions(nextColor);
+        positions = SearchPionsPassesPositions(lNextColor);
         for (int i=0; i<positions.size(); i++) {
-            lMoves = SearchPionPasseDefenseMoves(nextColor, positions[i]);
+            lMoves = SearchPionPasseDefenseMoves(lNextColor, positions[i]);
             for (int j=0; j<lMoves.size(); j++) {
                 moves.push_back(lMoves[j]);
             }
@@ -258,9 +205,9 @@ using namespace Common;
         }
         // Ajout des coups de defense des cases de fourchette averses
         if (Common::debug) cout << "SearchForkPositions ..." << endl;
-        positions = SearchForkPositions(nextColor);
+        positions = SearchForkPositions(lNextColor);
         for (int i=0; i<positions.size(); i++) {
-            lMoves = SearchForkDefenseMoves(nextColor, positions[i]);
+            lMoves = SearchForkDefenseMoves(lNextColor, positions[i]);
             for (int j=0; j<lMoves.size(); j++) {
                 moves.push_back(lMoves[j]);
             }
@@ -277,9 +224,9 @@ using namespace Common;
         }
         // Ajout des coups de defense des clouages adverses
         if (Common::debug) cout << "SearchPinPositions ..." << endl;
-        positions = SearchPinPositions(nextColor);
+        positions = SearchPinPositions(lNextColor);
         for (int i=0; i<positions.size(); i++) {
-            lMoves = SearchPinDefenseMoves(nextColor, positions[i]);
+            lMoves = SearchPinDefenseMoves(lNextColor, positions[i]);
             for (int j=0; j<lMoves.size(); j++) {
                 moves.push_back(lMoves[j]);
             }
@@ -308,22 +255,22 @@ float Board::EvaluatePinPositions(std::vector <string> pos_list)  {
 
 float Board::Evaluate() {
     float eval = 0; 
-    Color nextColor = Common::nextColor(trait);
+    Color lNextColor = nextColor();
     
     std::vector <string> positions; // les positions clefs pour la recherche de coups
     positions = SearchPionsPassesPositions(trait);
     eval += EvaluatePassedPawns(positions);  
-    positions = SearchPionsPassesPositions(nextColor);
+    positions = SearchPionsPassesPositions(lNextColor);
     eval += EvaluatePassedPawns(positions);  
     
     positions = SearchForkPositions(trait);
     eval += EvaluateForkPositions(positions);
-    positions = SearchForkPositions(nextColor);
+    positions = SearchForkPositions(lNextColor);
     eval += EvaluateForkPositions(positions);
     
     positions = SearchPinPositions(trait);
     eval += EvaluatePinPositions(positions);
-    positions = SearchPinPositions(nextColor);
+    positions = SearchPinPositions(lNextColor);
     eval += EvaluatePinPositions(positions);
             
     return eval;

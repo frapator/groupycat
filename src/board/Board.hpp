@@ -13,10 +13,10 @@ using namespace Common;
 
 class Board  {
     private: 
-        static const char empty_square = ' ';
+        static const char empty_square = '.';
         static const char pawn = 'p';
         
-        const char p[2][6] = {
+        const char pieces[2][6] = {
                 {'R', 'N', 'B', 'Q', 'K', 'P'},
                 {'r', 'n', 'b', 'q', 'k', 'p'}
         };
@@ -45,14 +45,15 @@ class Board  {
         void UnMove(AMove pMove);
         void Show();
         
-        bool isPassedPawn(Color color, int x, int y);
+        // commun
+        Color nextColor();
+        bool IsPieceAdverse(int x, int y);
         
         // pion passé
-         std::vector <string> SearchPionsPassesPositions(Color color);
-        
-        // recherches de coups
+        bool IsPassedPawn(Color color, int x, int y);
+        std::vector <string> SearchPionsPassesPositions(Color color);
         std::vector <AMove> SearchPionPasseAttackMoves(Color color, string pos);
-         std::vector <AMove> SearchPionPasseDefenseMoves(Color color, string pos);
+        std::vector <AMove> SearchPionPasseDefenseMoves(Color color, string pos);
         
          // Fourchettes
         
