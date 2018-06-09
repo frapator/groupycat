@@ -1,3 +1,5 @@
+#include <vector>
+
 #include "Position.hpp"
 
 std::string Position::toString() {
@@ -7,8 +9,8 @@ std::string Position::toString() {
         return std::string(coords);
     }
     
-std::vector <string> Position::GetKDestinations() {
-    std::vector <string> pos_list;
+std::vector <std::string> Position::GetKDestinations() {
+    std::vector <std::string> pos_list;
     
     // x+2,y-1 etc
     

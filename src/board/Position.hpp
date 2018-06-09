@@ -1,6 +1,7 @@
 #ifndef POSITION_HPP
 #define POSITION_HPP
 
+#include <vector>
 #include <iostream>
 
 class Position {
@@ -10,7 +11,7 @@ class Position {
             
         public:
             std::string toString();
-            std::vector <string> GetKDestinations();
+            std::vector <std::string> GetKDestinations();
     };
 
 #endif
