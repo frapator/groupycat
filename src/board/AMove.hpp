@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "Position.hpp"
+
 class AMove : public std::string {
     private: 
         char piece_prise;
@@ -11,9 +13,10 @@ class AMove : public std::string {
         bool promotion;
         float eval;
     
-    // constructeur
+    // constructeurs
         AMove(std::string s);
-    
+        AMove(Position _orig, Position _dest);
+        
     public:
         void SetPrise(char piece);
         char GetPiecePrise();

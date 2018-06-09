@@ -39,7 +39,7 @@ using namespace Common;
         // pour chaque pion 
         for (int i=0; i<8; i++) {
             for (int j=0; j<8; j++) {
-                if (IsPion(i,j)) {
+                if (IsPawn(i,j)) {
                     // pour chaque pion
                     if (IsPassedPawn(color, i,j)) {
                         // pion passé

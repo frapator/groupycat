@@ -9,7 +9,7 @@ std::string Position::toString() {
         return std::string(coords);
     }
     
-std::vector <Position> Position::GetKDestinations() {
+std::vector <Position> Position::GetNightDestinations() {
     std::vector <Position> pos_list;
     
     if (x+2 < 8 && y + 1 < 8) pos_list.push_back(Position(x+2, y+1));
@@ -23,3 +23,30 @@ std::vector <Position> Position::GetKDestinations() {
     
     return pos_list;
 };
+
+std::vector <Position> Position::GetPawnDestinations() {
+    std::vector <Position> pos_list;
+    
+    return pos_list;
+}
+std::vector <Position> Position::GetBishopDestinations() {
+    std::vector <Position> pos_list;
+    
+    return pos_list;
+}
+std::vector <Position> Position::GetRookDestinations() {
+    std::vector <Position> pos_list;
+    
+    return pos_list;
+}
+std::vector <Position> Position::GetQueenDestinations() {
+    std::vector <Position> pos_list;
+    
+    return pos_list;
+}
+
+std::vector <Position> Position::GetKingDestinations() {
+    std::vector <Position> pos_list;
+    
+    return pos_list;
+}

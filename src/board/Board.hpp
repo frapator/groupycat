@@ -51,9 +51,9 @@ class Board  {
         
         // commun
         Color nextColor();
-        bool IsPion(int x, int y) { return Piece::IsPion(GetPiece(x,y)); };
+        bool IsPawn(int x, int y) { return GetPiece(x,y).IsPawn(); };
         bool IsPieceAdverse(int x, int y);
-        bool IsPionAdverse(int x, int y) { return IsPieceAdverse(x, y) && IsPion(x,y); }
+        bool IsPionAdverse(int x, int y) { return IsPieceAdverse(x, y) && IsPawn(x,y); }
         std::vector <AMove> GetPossibleMoves();
         AMove GetRandomMove();
                 

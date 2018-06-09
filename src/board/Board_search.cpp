@@ -23,7 +23,14 @@ using namespace Common;
         
         std::vector <Piece> lPieces = GetPieces();
         for (int i=0; i<lPieces.size(); i++) {
-            // TODO ajouter les moves des pieces
+            Position lCurrentPos = lPieces[i].GetPosition();
+            if (lPieces[i].IsPawn()) {
+                std::vector <Position> lDestinations = lCurrentPos.GetPawnDestinations();
+                for (int j=0; j<lDestinations.size(); j++) {
+                    AMove lMove = AMove(lCurrentPos, lDestinations[j]);
+                    lMoves.push_back(lMove);
+                }
+            }
         }
         return lMoves;
     }
