@@ -7,11 +7,12 @@
 
 #include "../common/Common.hpp"
 #include "AMove.hpp"
+#include "Position.hpp"
 
 using namespace std;
 using namespace Common;
 
-        std::vector <string> Board::SearchForkPositions(Color color) {
+        std::vector <Position> Board::SearchForkPositions(Color color) {
         // fourchette = piece sur une case ou plusieurs pieces adverses sont attaquées
             
         // algo 1 : fourchettes niveau 1 (déclinable niveau 2)
@@ -28,7 +29,7 @@ using namespace Common;
             for (int i=0; i<8; i++) {
                 for (int j=0; j<8; j++) {
                     if (IsPieceAdverse(i,j)) {
-                        
+                        Position p = Position(i,j);
                         // pour chaque type de piece
                         for (int t=0; t<6; t++) {
                             // chercher les cases a portée de [i][j]
@@ -42,7 +43,7 @@ using namespace Common;
                 }
             }
             
-            std::vector <string> pos_list;
+            std::vector <Position> pos_list;
             for (int i=0; i<8; i++) {
                 for (int j=0; j<8; j++) { 
                     for (int t=0; t<6; t++) {
@@ -56,13 +57,13 @@ using namespace Common;
         return pos_list;
     }
     
-        std::vector <AMove> Board::SearchForkAttackMoves(Color color, string pos) {
+        std::vector <AMove> Board::SearchForkAttackMoves(Color color, Position pos) {
                 std::vector <AMove> moves;
             
             return moves;
     }
     
-        std::vector <AMove> Board::SearchForkDefenseMoves(Color color, string pos) {
+        std::vector <AMove> Board::SearchForkDefenseMoves(Color color, Position pos) {
                 std::vector <AMove> moves;
             
             return moves;

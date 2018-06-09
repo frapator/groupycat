@@ -7,6 +7,7 @@
 
 #include "../common/Common.hpp"
 #include "AMove.hpp"
+#include "Position.hpp"
 
 using namespace std;
 using namespace Common;
@@ -40,7 +41,6 @@ class Board  {
         char PionAdverse();
         void SetStartPos(Color ptrait);
         void SetFen(string fen);
-        string Position(int i, int j);
         void Move(AMove pMove);
         void UnMove(AMove pMove);
         void Show();
@@ -51,27 +51,27 @@ class Board  {
         
         // pion passé
         bool IsPassedPawn(Color color, int x, int y);
-        std::vector <string> SearchPionsPassesPositions(Color color);
-        std::vector <AMove> SearchPionPasseAttackMoves(Color color, string pos);
-        std::vector <AMove> SearchPionPasseDefenseMoves(Color color, string pos);
+        std::vector <Position> SearchPionsPassesPositions(Color color);
+        std::vector <AMove> SearchPionPasseAttackMoves(Color color, Position pos);
+        std::vector <AMove> SearchPionPasseDefenseMoves(Color color, Position pos);
         
          // Fourchettes
         
-          std::vector <string> SearchForkPositions(Color color);
-         std::vector <AMove> SearchForkAttackMoves(Color color, string pos);
-         std::vector <AMove> SearchForkDefenseMoves(Color color, string pos);
+          std::vector <Position> SearchForkPositions(Color color);
+         std::vector <AMove> SearchForkAttackMoves(Color color, Position pos);
+         std::vector <AMove> SearchForkDefenseMoves(Color color, Position pos);
         
         // clouage        
-         std::vector <string> SearchPinPositions(Color color);
-         std::vector <AMove> SearchPinAttackMoves(Color color, string pos);
-         std::vector <AMove> SearchPinDefenseMoves(Color color, string pos);
+         std::vector <Position> SearchPinPositions(Color color);
+         std::vector <AMove> SearchPinAttackMoves(Color color, Position pos);
+         std::vector <AMove> SearchPinDefenseMoves(Color color, Position pos);
        std::vector <AMove> SearchMoves();
            
     // Evaluation
         
-    float EvaluatePassedPawns(std::vector <string> pos_list);
-    float EvaluateForkPositions(std::vector <string> pos_list);
-    float EvaluatePinPositions(std::vector <string> pos_list);
+    float EvaluatePassedPawns(std::vector <Position> pos_list);
+    float EvaluateForkPositions(std::vector <Position> pos_list);
+    float EvaluatePinPositions(std::vector <Position> pos_list);
     float Evaluate();
       
 };

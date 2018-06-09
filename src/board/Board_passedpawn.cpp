@@ -7,6 +7,7 @@
 
 #include "../common/Common.hpp"
 #include "AMove.hpp"
+#include "Position.hpp"
 
 using namespace std;
 using namespace Common;
@@ -30,10 +31,10 @@ using namespace Common;
     }
     
     // pion passé
-        std::vector <string> Board::SearchPionsPassesPositions(Color color) {
+        std::vector <Position> Board::SearchPionsPassesPositions(Color color) {
         // identification/recherche des pions passés de la couleur en parametre
         // pion passé = pion de la couleur  sans pion adverse devant sur la meme colonne ou les colonnes adjacentes
-            std::vector <string> pos_list;
+            std::vector <Position> pos_list;
         char pion = (color == Color::white) ? 'P' : 'p';
         // pour chaque pion 
         for (int i=0; i<8; i++) {
@@ -54,7 +55,7 @@ using namespace Common;
     
     // recherches de coups
     
-        std::vector <AMove> Board::SearchPionPasseAttackMoves(Color color, string pos) {
+        std::vector <AMove> Board::SearchPionPasseAttackMoves(Color color, Position pos) {
         // recherche les coups pour appuyer le pion passé en attaque/Defense
         
         
@@ -64,7 +65,7 @@ using namespace Common;
         return moves;
     }
     
-        std::vector <AMove> Board::SearchPionPasseDefenseMoves(Color color, string pos) {
+        std::vector <AMove> Board::SearchPionPasseDefenseMoves(Color color, Position pos) {
         // recherche les coups pour appuyer le pion passé en attaque/Defense
         
         

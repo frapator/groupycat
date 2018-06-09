@@ -33,13 +33,6 @@ using namespace Common;
         //later
     }
     
-    string Board::Position(int i, int j) { // TODO class position ?
-        char coords [2];
-        coords[0] = 'a' + i;
-        coords[1] = '0' + j;
-        return string(coords);
-    }
-    
     void Board::Move(AMove pMove) {
         //const char *cstr = pMove.c_str();
         int i1 = pMove[0]  - 'a';
@@ -89,7 +82,7 @@ using namespace Common;
     }
     
     std::vector <AMove> Board::SearchMoves() {
-        std::vector <string> positions; // les positions clefs pour la recherche de coups
+        std::vector <Position> positions; // les positions clefs pour la recherche de coups
         std::vector <AMove> moves;
         std::vector <AMove> lMoves;
         Color lNextColor = nextColor();
@@ -156,18 +149,18 @@ using namespace Common;
     
 // Evaluation
     
-float Board::EvaluatePassedPawns(std::vector <string> pos_list)  {
+float Board::EvaluatePassedPawns(std::vector <Position> pos_list)  {
     if (pos_list.empty()) return 0;
     
     return pos_list.size();
 }
 
-float Board::EvaluateForkPositions(std::vector <string> pos_list)  {
+float Board::EvaluateForkPositions(std::vector <Position> pos_list)  {
     if (pos_list.empty()) return 0;
     return pos_list.size();
 }
 
-float Board::EvaluatePinPositions(std::vector <string> pos_list)  {
+float Board::EvaluatePinPositions(std::vector <Position> pos_list)  {
     if (pos_list.empty()) return 0;
     return pos_list.size();
 }
@@ -176,7 +169,7 @@ float Board::Evaluate() {
     float eval = 0; 
     Color lNextColor = nextColor();
     
-    std::vector <string> positions; // les positions clefs pour la recherche de coups
+    std::vector <Position> positions; // les positions clefs pour la recherche de coups
     positions = SearchPionsPassesPositions(trait);
     eval += EvaluatePassedPawns(positions);  
     positions = SearchPionsPassesPositions(lNextColor);
