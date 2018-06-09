@@ -6,6 +6,7 @@
 #include <iomanip>
 
 #include "../common/Common.hpp"
+#include "Piece.hpp"
 #include "AMove.hpp"
 #include "Position.hpp"
 
@@ -17,14 +18,15 @@ class Board  {
         static const char empty_square = '.';
         static const char pawn = 'p';
         
-        const char pieces[2][6] = {
+        /*const Piece pieces[2][6] = {
                 {'R', 'N', 'B', 'Q', 'K', 'P'},
                 {'r', 'n', 'b', 'q', 'k', 'p'}
-        };
+        };*/
         
         char pos[8][8];
+        //std::vector <Piece> pos2;
         
-        char startpos[8][8] = { 
+        char startpos[8][8] = {
             {'R','P','.','.','.','.','p','r'},
             {'N','P','.','.','.','.','p','n'},
             {'B','P','.','.','.','.','p','b'},
@@ -38,6 +40,8 @@ class Board  {
     public:
         
         Color trait;
+        Piece GetPiece(int i, int j);
+        std::vector <Piece> GetPieces();
         char PionAdverse();
         void SetStartPos(Color ptrait);
         void SetFen(string fen);
@@ -47,8 +51,12 @@ class Board  {
         
         // commun
         Color nextColor();
+        bool IsPion(int x, int y) { return Piece::IsPion(GetPiece(x,y)); };
         bool IsPieceAdverse(int x, int y);
-        
+        bool IsPionAdverse(int x, int y) { return IsPieceAdverse(x, y) && IsPion(x,y); }
+        std::vector <AMove> GetPossibleMoves();
+        AMove GetRandomMove();
+                
         // pion passé
         bool IsPassedPawn(Color color, int x, int y);
         std::vector <Position> SearchPionsPassesPositions(Color color);
@@ -73,7 +81,6 @@ class Board  {
     float EvaluateForkPositions(std::vector <Position> pos_list);
     float EvaluatePinPositions(std::vector <Position> pos_list);
     float Evaluate();
-      
 };
 
 #endif

@@ -6,6 +6,7 @@
 #include "Board.hpp"
 
 #include "../common/Common.hpp"
+#include "Piece.hpp"
 #include "AMove.hpp"
 
 using namespace std;
@@ -15,6 +16,22 @@ using namespace Common;
 
     bool Board::IsPieceAdverse(int x, int y) {
             return trait == Color::white ? pos[x][y] >= 'a' && pos[x][y] <= 'z' : pos[x][y] >= 'A' && pos[x][y] <= 'Z'; 
+    }
+    
+    std::vector <AMove> Board::GetPossibleMoves() {
+        std::vector <AMove> lMoves;
+        
+        std::vector <Piece> lPieces = GetPieces();
+        for (int i=0; i<lPieces.size(); i++) {
+            // TODO ajouter les moves des pieces
+        }
+        return lMoves;
+    }
+    
+    AMove Board::GetRandomMove() {
+            std::vector <AMove> lPossibleMoves = GetPossibleMoves();
+            int r = rand() % lPossibleMoves.size();
+            return lPossibleMoves[r];
     }
     
     // cherche les coups en fonction des caracteristiques

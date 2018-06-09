@@ -54,11 +54,12 @@ AMove Engine::SearchBestMove() {
     std::vector <AMove> moves;
     moves = board.SearchMoves();
     
-    // cas pas de coup trouvé !
+    // vérifie si un coup a été trouvé !
     if (moves.empty()) {
         if (Common::debug) cout << "pas de coup trouvé !" << endl;
-        return AMove("");
+        return board.GetRandomMove();
     }
+    
     if (Common::debug) cout << "evaluation des " << moves.size() << " coups trouvés" << endl;
     
     float max_eval =-1000;

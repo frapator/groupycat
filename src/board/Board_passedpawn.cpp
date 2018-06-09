@@ -22,7 +22,7 @@ using namespace Common;
         char pion_adverse = (color == Color::white) ? 'p' : 'P';
         for (int i=xmin; i<xmax; i++) {
             for (int j=ymin; j<ymax; j++) {
-                if (pos[i][j] == pion_adverse) {
+                if (IsPionAdverse(i,j)) {
                     found_pion_adverse = true;
                 }
             }
@@ -39,7 +39,7 @@ using namespace Common;
         // pour chaque pion 
         for (int i=0; i<8; i++) {
             for (int j=0; j<8; j++) {
-                if (pos[i][j] == pion) {
+                if (IsPion(i,j)) {
                     // pour chaque pion
                     if (IsPassedPawn(color, i,j)) {
                         // pion passé

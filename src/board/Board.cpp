@@ -6,6 +6,7 @@
 #include "Board.hpp"
 
 #include "../common/Common.hpp"
+#include "Piece.hpp"
 #include "AMove.hpp"
 
 using namespace std;
@@ -15,6 +16,20 @@ using namespace Common;
         return (trait == Color::white) ? Color::black : Color::white;
     }
 
+     Piece Board::GetPiece(int i, int j) {
+         return Piece(i,j,pos[i][j]);
+     }
+     
+    std::vector<Piece> Board::GetPieces() {
+        std::vector<Piece> lPieces;
+        for (int i=0; i<8; i++) {
+            for (int j=0; j<8; j++) {
+                lPieces.push_back(Piece(i, j, pos[i][j]));
+            }
+        }
+        return lPieces;
+    }
+      
     char Board::PionAdverse() {
         return (trait== Color::white) ? 'p' : 'P';
     }
@@ -24,7 +39,7 @@ using namespace Common;
         trait = ptrait;
         for (int i=0; i<8; i++) {
             for (int j=0; j<8; j++) {
-                pos[i][j] = startpos[i][j];
+                pos[i][j] = Piece(i, j, startpos[i][j]).ToChar();
             }
         }
     }
@@ -66,7 +81,7 @@ using namespace Common;
     void Board::Show() {
         for (int i=0; i<8; i++) {
             for (int j=0; j<8; j++) {
-                cout << pos[i][j];
+                cout << GetPiece(i,j).ToChar();
             }
             cout << endl;
         }
