@@ -26,7 +26,7 @@ void Engine::Start(int _seconds) {
     mainThread.detach();
     cout << "started" << endl;
     
-    for(auto runUntil = std::chrono::system_clock::now() + std::chrono::seconds(5);
+    for(auto runUntil = std::chrono::system_clock::now() + std::chrono::seconds(3);
 		std::chrono::system_clock::now() < runUntil;)
 	{
         // le moteur tourne
@@ -35,6 +35,7 @@ void Engine::Start(int _seconds) {
         ShowBestVariante();
         ShowCurrentVariante();
     }
+    ShowBestMove();
 }
 
 void Engine::Stop() {
