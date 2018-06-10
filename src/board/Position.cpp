@@ -68,12 +68,40 @@ std::vector <Position> Position::GetBishopDestinations() {
     
     // ne dépend pas de la couleur
     
+    for (int i=0; i<7; i++) {
+        // vers a8
+        if (x-1 >= 0 && y+1 < Board::size) pos_list.push_back(Position(x-1, y+1));
+        
+        // vers h8
+        if (x+1 >= 0 && y+1 < Board::size) pos_list.push_back(Position(x+1, y+1));
+        
+        // vers h1
+        if (x+1 < Board::size && y-1 >= 0) pos_list.push_back(Position(x+1, y-1));
+        
+        // vers a1
+        if (x-1 >= 0 && y-1 >= 0) pos_list.push_back(Position(x-1, y-1));
+    }
+    
     return pos_list;
 }
 std::vector <Position> Position::GetRookDestinations() {
     std::vector <Position> pos_list;
     
     // ne dépend pas de la couleur
+    
+     for (int i=0; i<7; i++) {
+        // vers a8
+        if (x-1 >= 0 && y+1 < Board::size) pos_list.push_back(Position(x-1, y+1));
+        
+        // vers h8
+        if (x+1 >= 0 && y+1 < Board::size) pos_list.push_back(Position(x+1, y+1));
+        
+        // vers h1
+        if (x+1 < Board::size && y-1 >= 0) pos_list.push_back(Position(x+1, y-1));
+        
+        // vers a1
+        if (x-1 >= 0 && y-1 >= 0) pos_list.push_back(Position(x-1, y-1));
+    }
     
     return pos_list;
 }
@@ -82,13 +110,38 @@ std::vector <Position> Position::GetQueenDestinations() {
     
     // ne dépend pas de la couleur
     
+    //GetBishopDestinations
+    //GetRookDestinations
+    //retirer les doublons
+    
     return pos_list;
 }
 
 std::vector <Position> Position::GetKingDestinations() {
     std::vector <Position> pos_list;
     
-    // ne dépend pas de la couleur
+    // le roque dépend de la couleur
+    // TODO ajouter le roque
     
+    // les autres coups ne dépendent pas de la couleur
+    
+    // monter (y+1)
+    if (y+1 < Board::size) {
+        if (x-1 >= 0) pos_list.push_back(Position(x-1, y+1));
+        pos_list.push_back(Position(x, y+1));
+        if (x+1 < Board::size) pos_list.push_back(Position(x+1, y+1));
+    }
+    
+    // latéral (y constant)
+    if (x-1 >= 0) pos_list.push_back(Position(x-1, y));
+    if (x+1 < Board::size) pos_list.push_back(Position(x+1, y));
+    
+    // descendre (y-1)
+    if (y-1 >= 0) {
+        if (x-1 >= 0) pos_list.push_back(Position(x-1, y-1));
+        pos_list.push_back(Position(x, y-1));
+        if (x+1 < Board::size) pos_list.push_back(Position(x+1, y-1));
+    }
+        
     return pos_list;
 }
