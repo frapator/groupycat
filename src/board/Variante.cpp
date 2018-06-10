@@ -5,7 +5,10 @@
 #include "AMove.hpp"
 
 std::string Variante::to_string() {
-    std::vector<std::string> list (begin(), end());
+    std::string s = "";
     
-    return boost::algorithm::join(list, ", ");
+    for (int i=0; i<size(); i++) {
+        s += this[i].to_string();
+    }
+    return s;
 }

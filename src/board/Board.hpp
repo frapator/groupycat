@@ -43,7 +43,7 @@ class Board  {
         Color trait;
         Piece GetPiece(int i, int j);
         Piece GetPiece(Position p);
-        Piece SetPiece(Position p, char c);
+        void SetPiece(Position p, char c);
         std::vector <Piece> GetPieces();
         char PionAdverse();
         void SetStartPos(Color ptrait);

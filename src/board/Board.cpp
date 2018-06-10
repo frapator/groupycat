@@ -29,7 +29,11 @@ using namespace Common;
         }
         return lPieces;
     }
-      
+    
+    void Board::SetPiece(Position _pos, char _c) {
+        pos[_pos.x][_pos.y] = Piece(_pos.x, _pos.y, startpos[_pos.y][_pos.y]);
+    }
+    
     char Board::PionAdverse() {
         return (trait== Color::white) ? 'p' : 'P';
     }
@@ -39,7 +43,7 @@ using namespace Common;
         trait = ptrait;
         for (int i=0; i<8; i++) {
             for (int j=0; j<8; j++) {
-                pos[i][j] = Piece(i, j, startpos[i][j]);
+                SetPiece(Position(i, j), startpos[i][j]);
             }
         }
     }

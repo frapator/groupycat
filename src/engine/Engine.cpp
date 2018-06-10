@@ -80,8 +80,7 @@ void Engine::Run() {
 
 AMove Engine::SearchBestMove() {
     if (Common::debug) cout << "running" << endl;
-    AMove best_move = AMove("a2a4");
-/*    
+    
     std::vector <AMove> moves;
     moves = board.SearchMoves();
     
@@ -104,7 +103,7 @@ AMove Engine::SearchBestMove() {
     AMove best_move = moves[0];
     
     for (int i = 0; i < moves.size(); i++) {
-        if (Common::debug) cout << "move evaluated " << i << moves[i] << endl;
+        if (Common::debug) cout << "move evaluated " << i << moves[i].to_string() << endl;
         
         mCurrentVariante.push_back(moves[i]);
         board.Move(moves[i]);
@@ -137,7 +136,7 @@ AMove Engine::SearchBestMove() {
     }
     
     if (Common::debug) cout << "finished" << endl;
-    */
+    
     return best_move;
 }
 
