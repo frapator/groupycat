@@ -1,22 +1,37 @@
 #ifndef ENGINE_HPP
 #define ENGINE_HPP
 
+#include "../board/Variante.hpp"
+#include "../board/AMove.hpp"
 #include "../board/Board.hpp"
 
 class Engine  {
-    private: Board board;
-    private: int thread_command;
+    private: 
+        Board board;
+        int thread_command;
+        Variante mCurrentVariante;
+        Variante mBestVariante;
     
-    public: void SetStartPos();    
-    public: void SetFen(string fen);
-    public: void Start();
+    public:
+        void Move(AMove pMove);    
     
-    public: void Stop();
-    public:void Move(AMove pMove);    
-    public: void ShowPos();
-    public: void Run();
-    public: AMove SearchBestMove();
+    // init
+    void SetStartPos();    
+    void SetFen(string fen);
+    void Start(int _seconds);
 
+    //démarrage recherche
+    void Run();
+    AMove SearchBestMove();
+    
+    // arret
+    void Stop();
+    
+    // display
+    void ShowPos();
+    void ShowBestMove();
+    void ShowBestVariante();
+    void ShowCurrentVariante();
 };
 
 #endif

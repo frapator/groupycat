@@ -88,7 +88,8 @@ int UciParser::ParseLine(string str) {
     if (str== "go") {
         boost::split(results, str, [](char c){return c == ' ';});
         // TODO param de go
-        engine.Start();
+        int seconds = 2;
+        engine.Start(seconds);
     }
     
     if (str== "stop") {

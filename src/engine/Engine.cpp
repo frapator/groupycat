@@ -1,5 +1,6 @@
 #include <thread>
 #include <iostream>
+#include <unistd.h>
 
 #include "../board/AMove.hpp"
 #include "../board/Board.hpp"
@@ -18,12 +19,22 @@ void Engine::SetFen(string fen) {
     board.SetFen(fen);
 }
 
-void Engine::Start() {
+void Engine::Start(int _seconds) {
     // start process
     thread_command = 1;
     std::thread mainThread(&Engine::Run, this);
     mainThread.detach();
     cout << "started" << endl;
+    
+    for(auto runUntil = std::chrono::system_clock::now() + std::chrono::seconds(5);
+		std::chrono::system_clock::now() < runUntil;)
+	{
+        // le moteur tourne
+        // on récupere son résultat de temps en temps
+        usleep(1000*1000); // 1 seconde
+        ShowBestVariante();
+        ShowCurrentVariante();
+    }
 }
 
 void Engine::Stop() {
@@ -40,10 +51,22 @@ void Engine::ShowPos() {
         board.Show();
 }
 
+void Engine::ShowBestMove() {
+        cout << mBestVariante[0] << endl;
+}
+
+void Engine::ShowCurrentVariante() {
+        cout << mCurrentVariante.ToString() << endl;
+}
+
+void Engine::ShowBestVariante() {
+        cout << mBestVariante.ToString() << endl;
+}
+
 // Main
 
 void Engine::Run() {
-    AMove best_move = SearchBestMove();
+    SearchBestMove();
 }
 
 // Search
