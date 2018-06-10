@@ -38,7 +38,7 @@ class Board  {
         };
     
     public:
-        
+        static const int size = 8;
         Color trait;
         Piece GetPiece(int i, int j);
         std::vector <Piece> GetPieces();

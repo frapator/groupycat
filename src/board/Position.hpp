@@ -4,6 +4,8 @@
 #include <vector>
 #include <iostream>
 
+#include "../common/Common.hpp"
+
 class Position {
         private:
             int x;
@@ -12,7 +14,7 @@ class Position {
         public:
             Position(int i, int j) : x(i), y(j) { };
             std::string toString();
-            std::vector <Position> GetPawnDestinations();
+            std::vector <Position> GetPawnDestinations(Common::Color _c);
             std::vector <Position> GetNightDestinations();
             std::vector <Position> GetBishopDestinations();
             std::vector <Position> GetRookDestinations();

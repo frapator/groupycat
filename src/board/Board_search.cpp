@@ -25,7 +25,7 @@ using namespace Common;
         for (int i=0; i<lPieces.size(); i++) {
             Position lCurrentPos = lPieces[i].GetPosition();
             if (lPieces[i].IsPawn()) {
-                std::vector <Position> lDestinations = lCurrentPos.GetPawnDestinations();
+                std::vector <Position> lDestinations = lCurrentPos.GetPawnDestinations(trait);
                 for (int j=0; j<lDestinations.size(); j++) {
                     AMove lMove = AMove(lCurrentPos, lDestinations[j]);
                     lMoves.push_back(lMove);
