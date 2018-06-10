@@ -1,16 +1,26 @@
 #include <vector>
+#include <iostream>
 
 #include "../common/Common.hpp"
 #include "Board.hpp"
 #include "Position.hpp"
 
-std::string Position::toString() {
-        char coords [2];
-        coords[0] = 'a' + x;
-        coords[1] = '0' + y;
-        return std::string(coords);
-    }
-    
+// constructeur
+
+Position::Position(std::string s) {
+    x = 0;
+    y = 0;
+}
+
+// to_string
+
+std::string Position::to_string() {
+    char coords [2];
+    coords[0] = 'a' + x;
+    coords[1] = '0' + y;
+    return std::string(coords);
+}
+
 // Destinations : ne regarde pas si le coup est possible
 
 std::vector <Position> Position::GetNightDestinations() {

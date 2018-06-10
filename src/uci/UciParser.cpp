@@ -75,8 +75,7 @@ int UciParser::ParseLine(string str) {
             movesParamIndex ++;
             while (movesParamIndex < results.size()) {
                 string s = results[movesParamIndex];
-                AMove move = s;
-                cout << move << endl;
+                AMove move = AMove(s);
                 movesParamIndex ++;
                 engine.Move(move);
             }

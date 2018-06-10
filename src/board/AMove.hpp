@@ -1,25 +1,29 @@
 #ifndef AMOVE_HPP
 #define AMOVE_HPP
 
-#include <string>
+#include <iostream>
 
 #include "Position.hpp"
 
-class AMove : public std::string {
+class AMove {
     private: 
         char piece_prise;
     
     public:
         bool promotion;
         float eval;
+        Position orig, dest;
     
-    // constructeurs
-        AMove(std::string s);
+        // constructeurs
         AMove(Position _orig, Position _dest);
-        
+        AMove(std::string s);
+        AMove() : AMove("") { };
+
     public:
         void SetPrise(char piece);
         char GetPiecePrise();
+
+        std::string to_string();
 };
 
 #endif

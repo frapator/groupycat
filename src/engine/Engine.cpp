@@ -26,13 +26,15 @@ void Engine::Start(int _seconds) {
     mainThread.detach();
     cout << "started" << endl;
     
-    for(auto runUntil = std::chrono::system_clock::now() + std::chrono::seconds(3);
-		std::chrono::system_clock::now() < runUntil;)
-	{
+    for(auto runUntil = std::chrono::system_clock::now() + std::chrono::seconds(2);
+		std::chrono::system_clock::now() < runUntil;)	
+    {
         // le moteur tourne
         // on récupere son résultat de temps en temps
         usleep(1000*1000); // 1 seconde
+        cout << "best : ";
         ShowBestVariante();
+        cout << "current : ";
         ShowCurrentVariante();
     }
     ShowBestMove();
@@ -53,15 +55,19 @@ void Engine::ShowPos() {
 }
 
 void Engine::ShowBestMove() {
-        cout << mBestVariante[0] << endl;
+    if (mBestVariante.size() <= 0) {
+        cout << "no best move" << endl;
+    } else {
+        cout << mBestVariante[0].to_string() << endl;
+    }
 }
 
 void Engine::ShowCurrentVariante() {
-        cout << mCurrentVariante.ToString() << endl;
+        cout << mCurrentVariante.to_string() << endl;
 }
 
 void Engine::ShowBestVariante() {
-        cout << mBestVariante.ToString() << endl;
+        cout << mBestVariante.to_string() << endl;
 }
 
 // Main
@@ -74,14 +80,17 @@ void Engine::Run() {
 
 AMove Engine::SearchBestMove() {
     if (Common::debug) cout << "running" << endl;
-    
+    AMove best_move = AMove("a2a4");
+/*    
     std::vector <AMove> moves;
     moves = board.SearchMoves();
     
     // vérifie si un coup a été trouvé !
     if (moves.empty()) {
         if (Common::debug) cout << "pas de coup trouvé !" << endl;
-        return board.GetRandomMove();
+        AMove lMove = board.GetRandomMove();
+        cout << lMove.to_string() << endl;
+        return lMove;
     }
     
     if (Common::debug) cout << "evaluation des " << moves.size() << " coups trouvés" << endl;
@@ -97,6 +106,7 @@ AMove Engine::SearchBestMove() {
     for (int i = 0; i < moves.size(); i++) {
         if (Common::debug) cout << "move evaluated " << i << moves[i] << endl;
         
+        mCurrentVariante.push_back(moves[i]);
         board.Move(moves[i]);
         
         bool stop_search;
@@ -110,6 +120,7 @@ AMove Engine::SearchBestMove() {
         }
 
         board.UnMove(moves[i]);
+        mCurrentVariante.pop_back();
         
         // verifie si on a trouvé un meilleur coup
         if (board.trait == Color::white) {
@@ -126,7 +137,7 @@ AMove Engine::SearchBestMove() {
     }
     
     if (Common::debug) cout << "finished" << endl;
-    
+    */
     return best_move;
 }
 

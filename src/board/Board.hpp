@@ -7,6 +7,7 @@
 
 #include "../common/Common.hpp"
 #include "Piece.hpp"
+#include "Position.hpp"
 #include "AMove.hpp"
 #include "Position.hpp"
 
@@ -23,7 +24,7 @@ class Board  {
                 {'r', 'n', 'b', 'q', 'k', 'p'}
         };*/
         
-        char pos[8][8];
+        Piece pos[8][8];
         //std::vector <Piece> pos2;
         
         char startpos[8][8] = {
@@ -41,6 +42,8 @@ class Board  {
         static const int size = 8;
         Color trait;
         Piece GetPiece(int i, int j);
+        Piece GetPiece(Position p);
+        Piece SetPiece(Position p, char c);
         std::vector <Piece> GetPieces();
         char PionAdverse();
         void SetStartPos(Color ptrait);

@@ -14,8 +14,10 @@ using namespace Common;
 
      // fonctions de recherche
 
-    bool Board::IsPieceAdverse(int x, int y) {
-            return trait == Color::white ? pos[x][y] >= 'a' && pos[x][y] <= 'z' : pos[x][y] >= 'A' && pos[x][y] <= 'Z'; 
+    bool Board::IsPieceAdverse(int i, int j) {
+            Piece p = GetPiece(i, j);
+            
+            return trait != p.GetColor();
     }
     
     std::vector <AMove> Board::GetPossibleMoves() {
@@ -24,12 +26,14 @@ using namespace Common;
         std::vector <Piece> lPieces = GetPieces();
         for (int i=0; i<lPieces.size(); i++) {
             Position lCurrentPos = lPieces[i].GetPosition();
+            std::vector <Position> lDestinations;
             if (lPieces[i].IsPawn()) {
-                std::vector <Position> lDestinations = lCurrentPos.GetPawnDestinations(trait);
-                for (int j=0; j<lDestinations.size(); j++) {
-                    AMove lMove = AMove(lCurrentPos, lDestinations[j]);
-                    lMoves.push_back(lMove);
-                }
+                lDestinations = lCurrentPos.GetPawnDestinations(trait);
+            }
+            if (Common::debug) cout << "destinations possibles :" << endl;
+            for (int j=0; j<lDestinations.size(); j++) {
+                AMove lMove = AMove(lCurrentPos, lDestinations[j]);
+                lMoves.push_back(lMove);
             }
         }
         return lMoves;
@@ -37,7 +41,9 @@ using namespace Common;
     
     AMove Board::GetRandomMove() {
             std::vector <AMove> lPossibleMoves = GetPossibleMoves();
+            if (Common::debug) cout << lPossibleMoves.size() << " coups possibles trouvés" << endl;
             int r = rand() % lPossibleMoves.size();
+            //if (Common::debug) cout << "cout choisi : " << lPossibleMoves[r] << endl;
             return lPossibleMoves[r];
     }
     

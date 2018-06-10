@@ -7,6 +7,7 @@
 
 #include "../common/Common.hpp"
 #include "Piece.hpp"
+#include "Position.hpp"
 #include "AMove.hpp"
 
 using namespace std;
@@ -16,15 +17,14 @@ using namespace Common;
         return (trait == Color::white) ? Color::black : Color::white;
     }
 
-     Piece Board::GetPiece(int i, int j) {
-         return Piece(i,j,pos[i][j]);
-     }
+     Piece Board::GetPiece(int i, int j) {  return pos[i][j]; }
+     Piece Board::GetPiece(Position p) { return pos[p.x][p.y]; }
      
     std::vector<Piece> Board::GetPieces() {
         std::vector<Piece> lPieces;
         for (int i=0; i<8; i++) {
             for (int j=0; j<8; j++) {
-                lPieces.push_back(Piece(i, j, pos[i][j]));
+                lPieces.push_back(pos[i][j]);
             }
         }
         return lPieces;
@@ -39,7 +39,7 @@ using namespace Common;
         trait = ptrait;
         for (int i=0; i<8; i++) {
             for (int j=0; j<8; j++) {
-                pos[i][j] = Piece(i, j, startpos[i][j]).ToChar();
+                pos[i][j] = Piece(i, j, startpos[i][j]);
             }
         }
     }
@@ -49,14 +49,12 @@ using namespace Common;
     }
     
     void Board::Move(AMove pMove) {
-        //const char *cstr = pMove.c_str();
-        int i1 = pMove[0]  - 'a';
-        int j1 = pMove[1] - '1';
-        int i2 = pMove[2] - 'a';
-        int j2 = pMove[3] - '1';
-
-        pos[i2][j2] = pos[i1][j1];
-        pos[i1][j1] = '.';
+        // on copie la piece sur la cible
+        Piece lOrig = GetPiece(pMove.orig);
+        SetPiece(pMove.dest, lOrig.ToChar());
+        
+        // on efface la position initiale
+        SetPiece(lOrig.GetPosition(), '.');
         
         // ajouter les cas spéciaux
         

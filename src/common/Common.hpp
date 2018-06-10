@@ -6,7 +6,7 @@
 namespace Common {
     extern int debug;
     
-    enum class Color { white, black};   
+    enum class Color { empty,white, black};   
 
     static Color nextColor(Color pColor);
 
