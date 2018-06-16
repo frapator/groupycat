@@ -27,8 +27,8 @@ class Piece {
         bool IsBishop() { return c == 'b' || c == 'B';};
         bool IsNight() { return c == 'n' || c == 'N';};
         
-        char ToChar() { return c; };
-        std::string ToString() { return std::string(1, c);}; 
+        char to_char() { return c; };
+        std::string to_string() { return std::string(1, c) + GetPosition().to_string();}; 
 };
 
 #endif

@@ -26,15 +26,18 @@ using namespace Common;
         std::vector <Piece> lPieces = GetPieces();
         for (int i=0; i<lPieces.size(); i++) {
             Position lCurrentPos = lPieces[i].GetPosition();
+            if (Common::debug) cout << "piece " << lCurrentPos.to_string();
             std::vector <Position> lDestinations;
             if (lPieces[i].IsPawn()) {
                 lDestinations = lCurrentPos.GetPawnDestinations(trait);
             }
-            if (Common::debug) cout << "destinations possibles :" << endl;
+            if (Common::debug) cout << "peut aller en";
             for (int j=0; j<lDestinations.size(); j++) {
                 AMove lMove = AMove(lCurrentPos, lDestinations[j]);
                 lMoves.push_back(lMove);
+                 if (Common::debug) cout << " " << lDestinations[j].to_string();
             }
+            if (Common::debug) cout << endl;
         }
         return lMoves;
     }

@@ -31,8 +31,9 @@ using namespace Common;
     }
     
     void Board::SetPiece(Position _pos, char _c) {
-        std::cout << _pos.to_string() << endl;
-        pos[_pos.x][_pos.y] = Piece(_pos.x, _pos.y, startpos[_pos.x][_pos.y]);
+        if (debug>0) std::cout << "set " << _pos.to_string() << " = " << _c << endl;
+        pos[_pos.x][_pos.y] = Piece(_pos.x, _pos.y, _c);
+        if (debug>0) std::cout << "pos " << _pos.x << "," << _pos.y << " = " << pos[_pos.x][_pos.y].to_string() << endl;
     }
     
     char Board::PionAdverse() {
@@ -55,9 +56,12 @@ using namespace Common;
     }
     
     void Board::Move(AMove pMove) {
+        if (debug > 0) std::cout << "moving " << pMove.to_string() << std::endl;
+        
         // on copie la piece sur la cible
         Piece lOrig = GetPiece(pMove.orig);
-        SetPiece(pMove.dest, lOrig.ToChar());
+        if (debug > 0) std::cout << "piece " << lOrig.to_string() << std::endl;
+        SetPiece(pMove.dest, lOrig.to_char());
         
         // on efface la position initiale
         SetPiece(lOrig.GetPosition(), '.');
@@ -93,7 +97,7 @@ using namespace Common;
     void Board::Show() {
         for (int i=0; i<8; i++) {
             for (int j=0; j<8; j++) {
-                cout << GetPiece(i,j).ToChar();
+                cout << GetPiece(i,j).to_char();
             }
             cout << endl;
         }
