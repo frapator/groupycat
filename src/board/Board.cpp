@@ -31,7 +31,8 @@ using namespace Common;
     }
     
     void Board::SetPiece(Position _pos, char _c) {
-        pos[_pos.x][_pos.y] = Piece(_pos.x, _pos.y, startpos[_pos.y][_pos.y]);
+        std::cout << _pos.to_string() << endl;
+        pos[_pos.x][_pos.y] = Piece(_pos.x, _pos.y, startpos[_pos.x][_pos.y]);
     }
     
     char Board::PionAdverse() {
@@ -43,6 +44,7 @@ using namespace Common;
         trait = ptrait;
         for (int i=0; i<8; i++) {
             for (int j=0; j<8; j++) {
+                //std::cout << "i,j : " << i << "," << j << endl;
                 SetPiece(Position(i, j), startpos[i][j]);
             }
         }
