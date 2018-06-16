@@ -7,17 +7,12 @@
 
 // constructeur
 
-Position::Position(std::string s) {
-    x = 0;
-    y = 0;
-}
-
 // to_string
 
 std::string Position::to_string() {
     char coords [2];
     coords[0] = 'a' + x;
-    coords[1] = '0' + y;
+    coords[1] = '1' + y;
     return std::string(coords);
 }
 

@@ -16,7 +16,11 @@ public:
     // constructeurs
     Position() : x(-1), y(-1) { };
     Position(int i, int j) : x(i), y(j) { };
+    Position(char i, char j) : x(i - 'a'), y(j - '1') { };
     Position(std::string s);
+    
+    // copy constructeurs
+    Position(Position* other) : x(other->x), y(other->y) { };
         
     //
     std::string to_string();
