@@ -7,6 +7,7 @@
 
 #include "../common/Common.hpp"
 #include "AMove.hpp"
+#include "Piece.hpp"
 #include "Position.hpp"
 
 using namespace std;

@@ -44,7 +44,6 @@ class Board  {
         Piece GetPiece(int i, int j);
         Piece GetPiece(Position p);
         void SetPiece(Position p, char c);
-        std::vector <Piece> GetPieces();
         char PionAdverse();
         void SetStartPos(Color ptrait);
         void SetFen(string fen);
@@ -54,7 +53,7 @@ class Board  {
         
         // commun
         Color nextColor();
-        bool IsPawn(int x, int y) { return GetPiece(x,y).IsPawn(); };
+        bool IsPawn(int x, int y);
         bool IsPieceAdverse(int x, int y);
         bool IsPionAdverse(int x, int y) { return IsPieceAdverse(x, y) && IsPawn(x,y); }
         std::vector <AMove> GetPossibleMoves();

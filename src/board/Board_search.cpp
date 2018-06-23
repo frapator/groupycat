@@ -23,21 +23,22 @@ using namespace Common;
     std::vector <AMove> Board::GetPossibleMoves() {
         std::vector <AMove> lMoves;
         
-        std::vector <Piece> lPieces = GetPieces();
-        for (int i=0; i<lPieces.size(); i++) {
-            Position lCurrentPos = lPieces[i].GetPosition();
-            if (Common::debug) cout << "piece " << lCurrentPos.to_string();
-            std::vector <Position> lDestinations;
-            if (lPieces[i].IsPawn()) {
-                lDestinations = lCurrentPos.GetPawnDestinations(trait);
+        for (int x=0; x<8; x++) {
+            for (int y=0; y<8; y++) {
+                Piece lPiece = GetPiece(x,y);
+                Position lPiecePosition = Position(x,y);
+                std::vector <Position> lDestinations;
+                if (lPiece.IsPawn()) {
+                    lDestinations = lPiecePosition.GetPawnDestinations(trait);
+                }
+                if (Common::debug) cout << "peut aller en : ";
+                for (int j=0; j<lDestinations.size(); j++) {
+                    AMove lMove = AMove(lPiecePosition, lDestinations[j]);
+                    lMoves.push_back(lMove);
+                    if (Common::debug) cout << " " << lDestinations[j].to_string();
+                }
+                if (Common::debug) cout << endl;
             }
-            if (Common::debug) cout << "peut aller en";
-            for (int j=0; j<lDestinations.size(); j++) {
-                AMove lMove = AMove(lCurrentPos, lDestinations[j]);
-                lMoves.push_back(lMove);
-                 if (Common::debug) cout << " " << lDestinations[j].to_string();
-            }
-            if (Common::debug) cout << endl;
         }
         return lMoves;
     }

@@ -3,6 +3,7 @@
 #include <unistd.h>
 
 #include "../board/AMove.hpp"
+#include "../board/Piece.hpp"
 #include "../board/Board.hpp"
 #include "../common/Common.hpp"
 
@@ -85,10 +86,11 @@ AMove Engine::SearchBestMove() {
     moves = board.SearchMoves();
     
     // vérifie si un coup a été trouvé !
+    // sinon renvoit un coup au hasard parmi les coups possibles
     if (moves.empty()) {
         if (Common::debug) cout << "pas de coup trouvé !" << endl;
         AMove lMove = board.GetRandomMove();
-        cout << lMove.to_string() << endl;
+        cout << "random move : " << lMove.to_string() << endl;
         return lMove;
     }
     

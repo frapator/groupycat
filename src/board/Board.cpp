@@ -20,21 +20,15 @@ using namespace Common;
      Piece Board::GetPiece(int i, int j) {  return pos[i][j]; }
      Piece Board::GetPiece(Position p) { return pos[p.x][p.y]; }
      
-    std::vector<Piece> Board::GetPieces() {
-        std::vector<Piece> lPieces;
-        for (int i=0; i<8; i++) {
-            for (int j=0; j<8; j++) {
-                lPieces.push_back(pos[i][j]);
-            }
-        }
-        return lPieces;
-    }
-    
     void Board::SetPiece(Position _pos, char _c) {
         if (debug>0) std::cout << "set " << _pos.to_string() << " = " << _c << endl;
-        pos[_pos.x][_pos.y] = Piece(_pos.x, _pos.y, _c);
+        pos[_pos.x][_pos.y] = Piece(_c);
         if (debug>0) std::cout << "pos " << _pos.x << "," << _pos.y << " = " << pos[_pos.x][_pos.y].to_string() << endl;
     }
+    
+    bool Board::IsPawn(int x, int y) {
+        return GetPiece(x,y).IsPawn();
+    };
     
     char Board::PionAdverse() {
         return (trait== Color::white) ? 'p' : 'P';
@@ -59,12 +53,12 @@ using namespace Common;
         if (debug > 0) std::cout << "moving " << pMove.to_string() << std::endl;
         
         // on copie la piece sur la cible
-        Piece lOrig = GetPiece(pMove.orig);
-        if (debug > 0) std::cout << "piece " << lOrig.to_string() << std::endl;
-        SetPiece(pMove.dest, lOrig.to_char());
+        Piece lOrigPiece = GetPiece(pMove.orig);
+        if (debug > 0) std::cout << "piece " << lOrigPiece.to_string() << std::endl;
+        SetPiece(pMove.dest, lOrigPiece.to_char());
         
         // on efface la position initiale
-        SetPiece(lOrig.GetPosition(), '.');
+        SetPiece(pMove.orig, '.');
         
         // ajouter les cas spéciaux
         
