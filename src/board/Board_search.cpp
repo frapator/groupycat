@@ -44,7 +44,7 @@ using namespace Common;
                 if (lPiece.IsPawn()) {
                     lDestinations = lPiecePosition.GetPawnDestinations(trait);
                 }
-                if (Common::debug) cout << "peut aller en : ";
+                if (Common::debug) cout << " peut aller en : ";
                 for (int j=0; j<lDestinations.size(); j++) {
                     AMove lMove = AMove(lPiecePosition, lDestinations[j]);
                     lMoves.push_back(lMove);
