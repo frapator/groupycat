@@ -38,12 +38,14 @@ class Board  {
             {'R','P','.','.','.','.','p','r'}
         };
     
+        void ClearPosition(Position _p);
+        
     public:
         static const int size = 8;
         Color trait;
         Piece GetPiece(int i, int j);
         Piece GetPiece(Position p);
-        void SetPiece(Position p, char c);
+        void SetPiece(Position _pos, Piece _piece);
         char PionAdverse();
         void SetStartPos(Color ptrait);
         void SetFen(string fen);

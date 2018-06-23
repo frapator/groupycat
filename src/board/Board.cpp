@@ -20,10 +20,16 @@ using namespace Common;
      Piece Board::GetPiece(int i, int j) {  return pos[i][j]; }
      Piece Board::GetPiece(Position p) { return pos[p.x][p.y]; }
      
-    void Board::SetPiece(Position _pos, char _c) {
-        if (debug>0) std::cout << "set " << _pos.to_string() << " = " << _c << endl;
-        pos[_pos.x][_pos.y] = Piece(_c);
-        if (debug>0) std::cout << "pos " << _pos.x << "," << _pos.y << " = " << pos[_pos.x][_pos.y].to_string() << endl;
+     void Board::SetPiece(Position _pos, Piece _piece) {
+        if (debug>0) std::cout << "set " << _pos.to_string() << " = " << _piece.to_char() << endl;
+        pos[_pos.x][_pos.y] = _piece;
+        if (debug>0) std::cout << "SetPiece :  pos " << _pos.x << "," << _pos.y << " = " << pos[_pos.x][_pos.y].to_string() << endl;
+    }
+    
+    void Board::ClearPosition(Position _pos)  {
+        Piece piece = Piece();
+        piece.Clear();
+        SetPiece(_pos, piece);
     }
     
     bool Board::IsPawn(int x, int y) {
@@ -58,8 +64,8 @@ using namespace Common;
         SetPiece(pMove.dest, lOrigPiece.to_char());
         
         // on efface la position initiale
-        SetPiece(pMove.orig, '.');
-        
+        ClearPosition(pMove.orig);
+                
         // ajouter les cas spéciaux
         
         // prise en passant

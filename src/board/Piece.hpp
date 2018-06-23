@@ -12,8 +12,10 @@ class Piece {
         static const char EMPTY_PIECE  = '.';
         
     public:
-        Piece() : c('.') {};
+        Piece() : c(Piece::EMPTY_PIECE) {}; // vide au départ
         Piece(char _c) : c(_c) {};
+        
+        void Clear() { c = Piece::EMPTY_PIECE; };
         
         //Position GetPosition() { return Position(x, y); };
         Common::Color GetColor();
