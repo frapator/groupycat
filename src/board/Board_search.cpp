@@ -14,6 +14,12 @@ using namespace Common;
 
      // fonctions de recherche
 
+    bool Board::IsEmpty(int i, int j) {
+            Piece p = GetPiece(i, j);
+            
+            return p.IsEmpty();
+    }
+    
     bool Board::IsPieceAdverse(int i, int j) {
             Piece p = GetPiece(i, j);
             
@@ -25,8 +31,15 @@ using namespace Common;
         
         for (int x=0; x<8; x++) {
             for (int y=0; y<8; y++) {
+                if (IsEmpty(x,y)) {
+                    break;
+                }
+                if (IsPieceAdverse(x,y)) {
+                    break;
+                }
                 Piece lPiece = GetPiece(x,y);
                 Position lPiecePosition = Position(x,y);
+                if (Common::debug) cout << lPiece.to_char() << lPiecePosition.to_string();
                 std::vector <Position> lDestinations;
                 if (lPiece.IsPawn()) {
                     lDestinations = lPiecePosition.GetPawnDestinations(trait);

@@ -53,7 +53,9 @@ class Board  {
         
         // commun
         Color nextColor();
+        bool IsEmpty(int x, int y);
         bool IsPawn(int x, int y);
+        bool IsPieceAuTrait(int x, int y);
         bool IsPieceAdverse(int x, int y);
         bool IsPionAdverse(int x, int y) { return IsPieceAdverse(x, y) && IsPawn(x,y); }
         std::vector <AMove> GetPossibleMoves();
