@@ -1,3 +1,6 @@
+#ifndef VARIANTE_HPP
+#define VARIANTE_HPP
+
 #include <iostream>
 
 #include "AMove.hpp"
@@ -9,3 +12,5 @@ private:
 public:
     std::string to_string();
 };
+
+#endif

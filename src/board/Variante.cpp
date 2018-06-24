@@ -1,8 +1,10 @@
 #include <iostream>
 #include <boost/algorithm/string/join.hpp>
 
-#include "Variante.hpp"
+#include "Piece.hpp"
+#include "Position.hpp"
 #include "AMove.hpp"
+#include "Variante.hpp"
 
 std::string Variante::to_string() {
     std::string s = "";

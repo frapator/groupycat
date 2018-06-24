@@ -1,18 +1,20 @@
 #ifndef ENGINE_HPP
 #define ENGINE_HPP
 
-#include "../board/Variante.hpp"
 #include "../board/AMove.hpp"
+#include "../board/Variante.hpp"
 #include "../board/Board.hpp"
 
 class Engine  {
     private: 
         Board board;
-        int thread_command;
+        bool  thread_stop_command;
+        int depthLimit;
         Variante mCurrentVariante;
         Variante mBestVariante;
     
     public:
+        Engine();
         void Move(AMove pMove);    
     
     // init

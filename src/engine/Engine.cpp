@@ -5,6 +5,7 @@
 #include "../board/AMove.hpp"
 #include "../board/Piece.hpp"
 #include "../board/Board.hpp"
+#include "../board/Variante.hpp"
 #include "../common/Common.hpp"
 
 #include "Engine.hpp"
@@ -12,6 +13,13 @@
 using namespace std;
 using namespace Common;
 
+Engine::Engine() {
+        thread_stop_command = false;
+        depthLimit = 1;
+        //mCurrentVariante = new Variante();
+        //mBestVariante = new Variante();
+    }
+    
 void Engine::SetStartPos() {
     board.SetStartPos(Color::white);
 }
@@ -22,7 +30,7 @@ void Engine::SetFen(string fen) {
 
 void Engine::Start(int _seconds) {
     // lance le moteur
-    thread_command = 1;
+    thread_stop_command = false;
     std::thread mainThread(&Engine::Run, this);
     mainThread.detach();
     if (Common::debug) cout << "started" << endl;
@@ -47,7 +55,7 @@ void Engine::Start(int _seconds) {
 
 void Engine::Stop() {
     // stop process
-    thread_command = 0;
+    thread_stop_command = true;
     if (Common::debug) cout << "stopped" << endl;
 }
 
@@ -92,7 +100,7 @@ void Engine::SearchBestMove() {
     std::vector <AMove> moves;
     moves = board.SearchMoves();
     
-    // vérifie pas trouvé : renvoit un coup au hasard parmi les coups possibles
+    // Si pas de coup trouvé, en prend un au hasard
     if (moves.empty()) {
         if (Common::debug) cout << "pas de meilleur coup trouvé !" << endl;
         std::vector <AMove> lPossibleMoves = board.GetPossibleMoves();
@@ -125,12 +133,9 @@ void Engine::SearchBestMove() {
         mCurrentVariante.push_back(moves[i]);
         board.Move(moves[i]);
         
-        bool stop_search;
-        stop_search = ! thread_command;
-
         // TODO gestion du temps et de la profondeur
         
-        if (stop_search) {
+        if (thread_stop_command) {
             // si on n'a plus de temps, on arrete la recherche et on evalue
             eval = board.Evaluate();
         } else {
