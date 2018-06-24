@@ -43,7 +43,7 @@ using namespace Common;
                     // pour chaque pion
                     if (IsPassedPawn(color, i,j)) {
                         // pion passé
-                            if (Common::debug) cout << "pion passé : " << i << "," << j << endl;
+                        //if (Common::debug) cout << "pion passé : " << i << "," << j << endl;
                         pos_list.push_back(Position(i,j));
                     }
                 }

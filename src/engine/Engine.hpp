@@ -22,7 +22,7 @@ class Engine  {
 
     //démarrage recherche
     void Run();
-    AMove SearchBestMove();
+    void SearchBestMove();
     
     // arret
     void Stop();
