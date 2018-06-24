@@ -60,8 +60,9 @@ class Board  {
         bool IsPieceAuTrait(int x, int y);
         bool IsPieceAdverse(int x, int y);
         bool IsPionAdverse(int x, int y) { return IsPieceAdverse(x, y) && IsPawn(x,y); }
+            
         std::vector <AMove> GetPossibleMoves();
-        AMove GetRandomMove();
+        AMove GetRandomMove(std::vector <AMove> pMovesList);
                 
         // pion passé
         bool IsPassedPawn(Color color, int x, int y);

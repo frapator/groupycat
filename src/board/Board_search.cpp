@@ -29,22 +29,28 @@ using namespace Common;
     std::vector <AMove> Board::GetPossibleMoves() {
         std::vector <AMove> lMoves;
         
+        cout << " searching possible moves from following position : " << endl;
+        Show();
+        
         for (int x=0; x<8; x++) {
             for (int y=0; y<8; y++) {
                 if (IsEmpty(x,y)) {
-                    break;
+                    continue;
                 }
                 if (IsPieceAdverse(x,y)) {
-                    break;
+                    continue;
                 }
                 Piece lPiece = GetPiece(x,y);
                 Position lPiecePosition = Position(x,y);
                 if (Common::debug) cout << lPiece.to_char() << lPiecePosition.to_string();
                 std::vector <Position> lDestinations;
                 if (lPiece.IsPawn()) {
+                    if (Common::debug) cout << " (pawn)" << lPiecePosition.to_string() << endl;
                     lDestinations = lPiecePosition.GetPawnDestinations(trait);
+                } else {
+                    if (Common::debug) cout << " (not pwan) " << lPiecePosition.to_string() << endl;
                 }
-                if (Common::debug) cout << " peut aller en : ";
+                //if (Common::debug) cout << " peut aller en : ";
                 for (int j=0; j<lDestinations.size(); j++) {
                     AMove lMove = AMove(lPiecePosition, lDestinations[j]);
                     lMoves.push_back(lMove);
@@ -56,12 +62,11 @@ using namespace Common;
         return lMoves;
     }
     
-    AMove Board::GetRandomMove() {
-            std::vector <AMove> lPossibleMoves = GetPossibleMoves();
-            if (Common::debug) cout << lPossibleMoves.size() << " coups possibles trouvés" << endl;
-            int r = rand() % lPossibleMoves.size();
-            //if (Common::debug) cout << "cout choisi : " << lPossibleMoves[r] << endl;
-            return lPossibleMoves[r];
+    AMove Board::GetRandomMove(std::vector <AMove> pMovesList) {
+            if (Common::debug) cout << pMovesList.size() << " coups possibles trouvés" << endl;
+            int r = rand() % pMovesList.size();
+            if (Common::debug) cout << "coup choisi : " << pMovesList[r].to_string() << endl;
+            return pMovesList[r];
     }
     
     // cherche les coups en fonction des caracteristiques

@@ -21,30 +21,34 @@ void Engine::SetFen(string fen) {
 }
 
 void Engine::Start(int _seconds) {
-    // start process
+    // lance le moteur
     thread_command = 1;
     std::thread mainThread(&Engine::Run, this);
     mainThread.detach();
-    cout << "started" << endl;
+    if (Common::debug) cout << "started" << endl;
     
-    for(auto runUntil = std::chrono::system_clock::now() + std::chrono::seconds(2);
+    // regarde les résultats du moteur
+    for(auto runUntil = std::chrono::system_clock::now() + std::chrono::seconds(_seconds);
 		std::chrono::system_clock::now() < runUntil;)	
     {
         // le moteur tourne
         // on récupere son résultat de temps en temps
-        usleep(1000*1000); // 1 seconde
-        cout << "best : ";
+        usleep(100*1000); // 0,1 seconde
+         if (Common::debug) cout << "best : ";
         ShowBestVariante();
-        cout << "current : ";
+         if (Common::debug) cout << "current : ";
         ShowCurrentVariante();
     }
+    
+    // arrete le moteur
+    Stop();
     ShowBestMove();
 }
 
 void Engine::Stop() {
     // stop process
     thread_command = 0;
-    cout << "stopped" << endl;
+    if (Common::debug) cout << "stopped" << endl;
 }
 
 void Engine::Move(AMove pMove) {
@@ -57,7 +61,7 @@ void Engine::ShowPos() {
 
 void Engine::ShowBestMove() {
     if (mBestVariante.size() <= 0) {
-        cout << "no best move" << endl;
+        cout << "Error : no best move" << endl;
     } else {
         cout << mBestVariante[0].to_string() << endl;
     }
@@ -76,11 +80,12 @@ void Engine::ShowBestVariante() {
 void Engine::Run() {
     if (Common::debug) cout << "running ..." << endl;
     SearchBestMove();
+    ShowBestMove();
 }
 
 // Search
 
-AMove Engine::SearchBestMove() {
+void Engine::SearchBestMove() {
     if (Common::debug) cout << "searching best move ..." << endl;
     
     // recherche des coups
@@ -90,13 +95,20 @@ AMove Engine::SearchBestMove() {
     // vérifie pas trouvé : renvoit un coup au hasard parmi les coups possibles
     if (moves.empty()) {
         if (Common::debug) cout << "pas de meilleur coup trouvé !" << endl;
-        AMove lMove = board.GetRandomMove();
-        cout << "random move : " << lMove.to_string() << endl;
-        return lMove;
+        std::vector <AMove> lPossibleMoves = board.GetPossibleMoves();
+        
+        // si pas de coup possible
+        if (lPossibleMoves.size() == 0) {
+            return;
+        }
+        
+        AMove lRandomMove = board.GetRandomMove(lPossibleMoves);
+        if (Common::debug) cout << "random move : " << lRandomMove.to_string() << endl;
+        moves.push_back(lRandomMove);
     }
     
     // il y a des coups trouvés
-    if (Common::debug) cout << "evaluation des " << moves.size() << " coups trouvés" << endl;
+    if (Common::debug) cout << "évaluation des " << moves.size() << " coups trouvés" << endl;
     
     float max_eval =-1000;
     float min_eval =1000;
@@ -107,7 +119,7 @@ AMove Engine::SearchBestMove() {
     AMove best_move = moves[0];
     
     for (int i = 0; i < moves.size(); i++) {
-        if (Common::debug) cout << "move evaluated " << i << moves[i].to_string() << endl;
+        if (Common::debug) cout << "move evaluated n°" << i << " : " << moves[i].to_string() << endl;
         
         // on réalise le déplacement
         mCurrentVariante.push_back(moves[i]);
@@ -123,7 +135,7 @@ AMove Engine::SearchBestMove() {
             eval = board.Evaluate();
         } else {
             // on continue la recherche
-            AMove next_move = SearchBestMove();
+            SearchBestMove();
         }
 
         // on annul le déplacement
@@ -145,7 +157,5 @@ AMove Engine::SearchBestMove() {
     }
     
     if (Common::debug) cout << "searchBestMove finished" << endl;
-    
-    return best_move;
 }
 
