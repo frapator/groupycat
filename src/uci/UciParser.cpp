@@ -70,6 +70,9 @@ int UciParser::ParseLine(string str) {
             engine.SetFen(fenstring);
             movesParamIndex ++;
         }
+        if (results.size()>= movesParamIndex) {
+            return result;
+        }
         if (results[movesParamIndex] == "moves") {
             // lecture des moves
             movesParamIndex ++;
@@ -110,10 +113,14 @@ int UciParser::ParseLine(string str) {
     
     if (str== "showpos") engine.ShowPos();
     if (str == "1") {
-        ParseLine("position startpos moves e2e4 e7e5 d2d4 e5d4 c2c4");
+        ParseLine("position startpos");
+        std::cout << "parsed" << std::endl;
         ParseLine("showpos");
     }
-    
+    if (str == "2") {
+        ParseLine("position startpos moves e2e4 e7e5 d2d4 e5d4 c2c4");
+        ParseLine("showpos");
+    }    
     return result;
 }
 

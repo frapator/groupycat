@@ -74,26 +74,28 @@ void Engine::ShowBestVariante() {
 // Main
 
 void Engine::Run() {
+    if (Common::debug) cout << "running ..." << endl;
     SearchBestMove();
 }
 
 // Search
 
 AMove Engine::SearchBestMove() {
-    if (Common::debug) cout << "running" << endl;
+    if (Common::debug) cout << "searching best move ..." << endl;
     
+    // recherche des coups
     std::vector <AMove> moves;
     moves = board.SearchMoves();
     
-    // vérifie si un coup a été trouvé !
-    // sinon renvoit un coup au hasard parmi les coups possibles
+    // vérifie pas trouvé : renvoit un coup au hasard parmi les coups possibles
     if (moves.empty()) {
-        if (Common::debug) cout << "pas de coup trouvé !" << endl;
+        if (Common::debug) cout << "pas de meilleur coup trouvé !" << endl;
         AMove lMove = board.GetRandomMove();
         cout << "random move : " << lMove.to_string() << endl;
         return lMove;
     }
     
+    // il y a des coups trouvés
     if (Common::debug) cout << "evaluation des " << moves.size() << " coups trouvés" << endl;
     
     float max_eval =-1000;
@@ -107,19 +109,24 @@ AMove Engine::SearchBestMove() {
     for (int i = 0; i < moves.size(); i++) {
         if (Common::debug) cout << "move evaluated " << i << moves[i].to_string() << endl;
         
+        // on réalise le déplacement
         mCurrentVariante.push_back(moves[i]);
         board.Move(moves[i]);
         
         bool stop_search;
         stop_search = ! thread_command;
+
         // TODO gestion du temps et de la profondeur
         
         if (stop_search) {
+            // si on n'a plus de temps, on arrete la recherche et on evalue
             eval = board.Evaluate();
         } else {
+            // on continue la recherche
             AMove next_move = SearchBestMove();
         }
 
+        // on annul le déplacement
         board.UnMove(moves[i]);
         mCurrentVariante.pop_back();
         
@@ -137,7 +144,7 @@ AMove Engine::SearchBestMove() {
         }
     }
     
-    if (Common::debug) cout << "finished" << endl;
+    if (Common::debug) cout << "searchBestMove finished" << endl;
     
     return best_move;
 }
