@@ -75,7 +75,9 @@ std::vector <Position> Position::GetPawnTakeDestinations(Common::Color _c) {
             // avance
             pos_list.push_back(Position(x, y-1));
             // prise aile roi
-            if (x + 1 < 8) pos_list.push_back(Position(x+1, y-1));
+            if (x + 1 < 8) {
+                pos_list.push_back(Position(x+1, y-1));
+            }
             // prise aile dame
             if (x - 1 >=0) pos_list.push_back(Position(x-1, y-1));
         }

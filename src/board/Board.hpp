@@ -59,6 +59,7 @@ class Board  {
         bool IsPawn(int x, int y);
         bool IsPieceAuTrait(int x, int y);
         bool IsPieceAdverse(int x, int y);
+        bool IsPieceAdverse(Position _p) { return IsPieceAdverse(_p.x, _p.y); };
         bool IsPionAdverse(int x, int y) { return IsPieceAdverse(x, y) && IsPawn(x,y); }
             
         std::vector <AMove> GetPossibleMoves();

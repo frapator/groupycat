@@ -50,10 +50,17 @@ using namespace Common;
                 
                 if (lPiece.IsPawn()) {
                     if (Common::debug) cout << " (pawn)" << lPiecePosition.to_string() << endl;
-                    std::vector <Position> lTakeDestinations = lPiecePosition.GetPawnTakeDestinations(trait);
+                    // ajout des déplacements sans prise
                     std::vector <Position> lMoveDestinations = lPiecePosition.GetPawnMoveDestinations(trait);
-                    lDestinations.insert(lDestinations.end(), lTakeDestinations.begin(), lTakeDestinations.end());
                     lDestinations.insert(lDestinations.end(), lMoveDestinations.begin(), lMoveDestinations.end());
+                    
+                    // ajout des prises
+                    std::vector <Position> lTakeDestinations = lPiecePosition.GetPawnTakeDestinations(trait);
+                    for (int i=0; i<lTakeDestinations.size(); i++) {
+                        if (IsPieceAdverse(lTakeDestinations[i])) {
+                            lDestinations.push_back(lTakeDestinations[i]);
+                        }
+                    }
                 } else {
                     if (Common::debug) cout << " (not pwan) " << lPiecePosition.to_string() << endl;
                 }
