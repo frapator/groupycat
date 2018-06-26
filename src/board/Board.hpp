@@ -56,6 +56,7 @@ class Board  {
         // commun
         Color nextColor();
         bool IsEmpty(int x, int y);
+        bool IsEmpty(Position _p) { return IsEmpty(_p.x, _p.y); };
         bool IsPawn(int x, int y);
         bool IsPieceAuTrait(int x, int y);
         bool IsPieceAdverse(int x, int y);

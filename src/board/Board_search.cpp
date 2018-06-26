@@ -52,7 +52,11 @@ using namespace Common;
                     if (Common::debug) cout << " (pawn)" << lPiecePosition.to_string() << endl;
                     // ajout des déplacements sans prise
                     std::vector <Position> lMoveDestinations = lPiecePosition.GetPawnMoveDestinations(trait);
-                    lDestinations.insert(lDestinations.end(), lMoveDestinations.begin(), lMoveDestinations.end());
+                    for (int i=0; i<lMoveDestinations.size(); i++) {
+                        if (IsEmpty(lMoveDestinations[i])) {
+                            lDestinations.push_back(lMoveDestinations[i]);
+                        }
+                    }
                     
                     // ajout des prises
                     std::vector <Position> lTakeDestinations = lPiecePosition.GetPawnTakeDestinations(trait);
