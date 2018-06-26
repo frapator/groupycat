@@ -27,6 +27,7 @@ int UciParser::ParseLine(string str) {
     
     if (str== "debug on") {
         debug = 1;
+        std::cout << "debug on" << std::endl;
     }
     if (str== "debug off") {
         debug = 0;

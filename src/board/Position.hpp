@@ -24,7 +24,8 @@ public:
         
     //
     std::string to_string();
-    std::vector <Position> GetPawnDestinations(Common::Color _c);
+    std::vector <Position> GetPawnMoveDestinations(Common::Color _c);
+    std::vector <Position> GetPawnTakeDestinations(Common::Color _c);
     std::vector <Position> GetNightDestinations();
     std::vector <Position> GetBishopDestinations();
     std::vector <Position> GetRookDestinations();

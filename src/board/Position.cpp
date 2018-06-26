@@ -35,7 +35,7 @@ std::vector <Position> Position::GetNightDestinations() {
     return pos_list;
 };
 
-std::vector <Position> Position::GetPawnDestinations(Common::Color _c) {
+std::vector <Position> Position::GetPawnMoveDestinations(Common::Color _c) {
     std::vector <Position> pos_list;
     
     // déplacement dépend de la couleur
@@ -43,13 +43,31 @@ std::vector <Position> Position::GetPawnDestinations(Common::Color _c) {
         if (y + 1 < 8) {
             // avance
             pos_list.push_back(Position(x, y+1));
+        }
+        // coup de départ
+        if (y == 2) pos_list.push_back(Position(x, y+2));
+    } else {
+        // TODO factoriser avec le if (pas si simple a cause des tests qui ne sont pas commutatifs < >, sauf a faire plus generique en testant les 2 bornes tout le temps)
+        if (y - 1 >=0) {
+            // avance
+            pos_list.push_back(Position(x, y-1));
+        }
+        // coup de départ
+        if (y == Board::size - 1) pos_list.push_back(Position(x, y-2));
+    }
+    return pos_list;
+}
+
+std::vector <Position> Position::GetPawnTakeDestinations(Common::Color _c) {
+    std::vector <Position> pos_list;
+    
+    // déplacement dépend de la couleur
+    if (_c == Common::Color::white) {
+        if (y + 1 < 8) {
             // prise a droite
             if (x + 1 < 8) pos_list.push_back(Position(x+1, y+1));
             // prise a gauche
             if (x - 1 >=0) pos_list.push_back(Position(x-1, y+1));
-        } else {
-            // coup de départ
-            if (y == 2) pos_list.push_back(Position(x, y+2));
         }
     } else {
         // TODO factoriser avec le if (pas si simple a cause des tests qui ne sont pas commutatifs < >, sauf a faire plus generique en testant les 2 bornes tout le temps)
@@ -60,14 +78,12 @@ std::vector <Position> Position::GetPawnDestinations(Common::Color _c) {
             if (x + 1 < 8) pos_list.push_back(Position(x+1, y-1));
             // prise aile dame
             if (x - 1 >=0) pos_list.push_back(Position(x-1, y-1));
-        } else {
-            // coup de départ
-            if (y == Board::size - 1) pos_list.push_back(Position(x, y-2));
         }
     }
     
     return pos_list;
 }
+
 std::vector <Position> Position::GetBishopDestinations() {
     std::vector <Position> pos_list;
     

@@ -29,24 +29,31 @@ using namespace Common;
     std::vector <AMove> Board::GetPossibleMoves() {
         std::vector <AMove> lMoves;
         
-        cout << " searching possible moves from following position : " << endl;
-        Show();
+        if (Common::debug) cout << " searching possible moves from following position : " << endl;
+        if (Common::debug) Show();
         
         for (int x=0; x<8; x++) {
             for (int y=0; y<8; y++) {
+                // si case vide
                 if (IsEmpty(x,y)) {
                     continue;
                 }
+                // si case avec piece adverse
                 if (IsPieceAdverse(x,y)) {
                     continue;
                 }
+                // si case avec piece du joueur
                 Piece lPiece = GetPiece(x,y);
                 Position lPiecePosition = Position(x,y);
                 if (Common::debug) cout << lPiece.to_char() << lPiecePosition.to_string();
                 std::vector <Position> lDestinations;
+                
                 if (lPiece.IsPawn()) {
                     if (Common::debug) cout << " (pawn)" << lPiecePosition.to_string() << endl;
-                    lDestinations = lPiecePosition.GetPawnDestinations(trait);
+                    std::vector <Position> lTakeDestinations = lPiecePosition.GetPawnTakeDestinations(trait);
+                    std::vector <Position> lMoveDestinations = lPiecePosition.GetPawnMoveDestinations(trait);
+                    lDestinations.insert(lDestinations.end(), lTakeDestinations.begin(), lTakeDestinations.end());
+                    lDestinations.insert(lDestinations.end(), lMoveDestinations.begin(), lMoveDestinations.end());
                 } else {
                     if (Common::debug) cout << " (not pwan) " << lPiecePosition.to_string() << endl;
                 }
