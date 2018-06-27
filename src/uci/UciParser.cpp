@@ -118,7 +118,11 @@ int UciParser::ParseLine(string str) {
         int lParamIndex = 1;
         while (lParamIndex + 1 < results.size()) {
             string lParam = results[lParamIndex];
-            string lValue = results[lParamIndex+1],
+            string lValue = results[lParamIndex+1];
+            if (lParam == "ponder") {
+            }
+            if (lParam == "searchmoves") {
+            }
             if (lParam == "wtime") {
             }
             if (lParam == "btime") {
