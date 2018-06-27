@@ -80,15 +80,20 @@ int UciParser::ParseLine(string str) {
         int movesParamIndex = 2;
         if (lMainParam == "startpos") {
             engine.SetStartPos();
-            
         } else if (lMainParam == "fen") {
+            if (results.size() <= 2) return 1; // fen non fourni
             string fenstring = results[2];
             engine.SetFen(fenstring);
             movesParamIndex ++;
+        } else {
+            return 1; // position non reconnue
         }
+        
         if (results.size() <= movesParamIndex) {
-            return result;
+            // commande position terminée sans moves derriere
+            return 0;
         }
+        
         if (results[movesParamIndex] == "moves") {
             // lecture des moves
             if (Common::debug) cout << "moves parsing ..." << endl;
@@ -100,16 +105,25 @@ int UciParser::ParseLine(string str) {
                 movesParamIndex ++;
                 engine.Move(move);
             }
+        } else {
+            // parametre inconnu
+            return 1;
         }
         
         if (debug) engine.ShowPos();
-        return 0;
+        return 0; // fin commande position
     }
     
     if (lCommand== "go") {
-        // TODO param de go
-        int seconds = 2;
-        engine.Start(seconds);
+        if (lMainParam == "depth") {
+        }
+        if (lMainParam == "nodes") {
+        }
+        if (lMainParam == "movetime") {
+            if (results.size() < 2) return 1;
+            int seconds = stoi(results[1]);
+            engine.Start(seconds);
+        }
         return 0;
     }
     
