@@ -115,14 +115,35 @@ int UciParser::ParseLine(string str) {
     }
     
     if (lCommand== "go") {
-        if (lMainParam == "depth") {
-        }
-        if (lMainParam == "nodes") {
-        }
-        if (lMainParam == "movetime") {
-            if (results.size() < 2) return 1;
-            int seconds = stoi(results[1]);
-            engine.Start(seconds);
+        int lParamIndex = 1;
+        while (lParamIndex + 1 < results.size()) {
+            string lParam = results[lParamIndex];
+            string lValue = results[lParamIndex+1],
+            if (lParam == "wtime") {
+            }
+            if (lParam == "btime") {
+            }
+            if (lParam == "winc") {
+            }
+            if (lParam == "binc") {
+            }
+            if (lParam == "movestogo") {
+            }
+            if (lParam == "infinite") {
+            }
+            if (lParam == "mate") {
+            }
+            if (lParam == "depth") {
+            }
+            if (lParam == "nodes") {
+            }
+            if (lParam == "movetime") {
+                if (results.size() < 2) return 1;
+                int seconds = stoi(results[1]);
+                engine.Start(seconds);
+            }
+            
+            lParamIndex += 2;
         }
         return 0;
     }
