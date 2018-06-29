@@ -15,7 +15,10 @@ using namespace Common;
 
 Engine::Engine() {
         thread_stop_command = false;
-        depthLimit = 1;
+        depthLimit = 0;
+        msLimit = 0;
+        nodesLimit = 0;
+        nodesCounter = 0;
         //mCurrentVariante = new Variante();
         //mBestVariante = new Variante();
     }
@@ -28,7 +31,7 @@ void Engine::SetFen(string fen) {
     board.SetFen(fen);
 }
 
-void Engine::Start(int _seconds) {
+void Engine::Start() {
     // lance le moteur
     thread_stop_command = false;
     std::thread mainThread(&Engine::Run, this);
@@ -36,12 +39,12 @@ void Engine::Start(int _seconds) {
     if (Common::debug) cout << "started" << endl;
     
     // regarde les résultats du moteur
-    for(auto runUntil = std::chrono::system_clock::now() + std::chrono::seconds(_seconds);
+    for(auto runUntil = std::chrono::system_clock::now() + std::chrono::milliseconds(msLimit);
 		std::chrono::system_clock::now() < runUntil;)	
     {
         // le moteur tourne
         // on récupere son résultat de temps en temps
-        usleep(100*1000); // 0,1 seconde
+        usleep(50*1000); // 50 ms
          if (Common::debug) cout << "best : ";
         ShowBestVariante();
          if (Common::debug) cout << "current : ";
@@ -94,7 +97,8 @@ void Engine::Run() {
 // Search
 
 void Engine::SearchBestMove() {
-    if (Common::debug) cout << "searching best move ..." << endl;
+    nodesCounter ++;
+    if (Common::debug) cout << "searching best move node " << nodesCounter << endl;
     
     // recherche des coups
     std::vector <AMove> moves;
@@ -133,9 +137,8 @@ void Engine::SearchBestMove() {
         mCurrentVariante.push_back(moves[i]);
         board.Move(moves[i]);
         
-        // TODO gestion du temps et de la profondeur
-        
-        if (thread_stop_command) {
+        // gestion des conditions d'arret
+        if (ItsTimeToStopCompute() || thread_stop_command) {
             // si on n'a plus de temps, on arrete la recherche et on evalue
             eval = board.Evaluate();
         } else {
@@ -164,3 +167,8 @@ void Engine::SearchBestMove() {
     if (Common::debug) cout << "searchBestMove finished" << endl;
 }
 
+bool Engine::ItsTimeToStopCompute() {
+    if (nodesCounter >= nodesLimit) return true;
+    
+    return false;
+}

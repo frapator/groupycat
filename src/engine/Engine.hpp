@@ -9,18 +9,25 @@ class Engine  {
     private: 
         Board board;
         bool  thread_stop_command;
-        int depthLimit;
+        
         Variante mCurrentVariante;
         Variante mBestVariante;
     
+        bool ItsTimeToStopCompute();
+        
     public:
+        int depthLimit;
+        int msLimit;
+        int nodesLimit;
+        int nodesCounter;
+        
         Engine();
         void Move(AMove pMove);    
     
     // init
     void SetStartPos();    
     void SetFen(string fen);
-    void Start(int _seconds);
+    void Start();
 
     //démarrage recherche
     void Run();

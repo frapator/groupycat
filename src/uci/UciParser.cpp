@@ -118,18 +118,27 @@ int UciParser::ParseLine(string str) {
         int lParamIndex = 1;
         while (lParamIndex + 1 < results.size()) {
             string lParam = results[lParamIndex];
+            if (results.size() < 2) {
+                cout << "erreur : missing go value for parameter  " << lParam << endl;
+                return 1;
+            }
             string lValue = results[lParamIndex+1];
+            
             if (lParam == "ponder") {
             }
             if (lParam == "searchmoves") {
             }
             if (lParam == "wtime") {
+                if (results.size() < 2) return 1;
             }
             if (lParam == "btime") {
+                
             }
             if (lParam == "winc") {
+                
             }
             if (lParam == "binc") {
+                
             }
             if (lParam == "movestogo") {
             }
@@ -138,17 +147,17 @@ int UciParser::ParseLine(string str) {
             if (lParam == "mate") {
             }
             if (lParam == "depth") {
+                engine.depthLimit = stoi(lValue);
             }
             if (lParam == "nodes") {
+                engine.nodesLimit = stoi(lValue);
             }
             if (lParam == "movetime") {
-                if (results.size() < 2) return 1;
-                int seconds = stoi(results[1]);
-                engine.Start(seconds);
+                engine.msLimit = stoi(results[1]);
             }
-            
             lParamIndex += 2;
         }
+        engine.Start();
         return 0;
     }
     
