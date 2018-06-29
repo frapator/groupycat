@@ -8,11 +8,11 @@ using namespace std;
 
 void UciParser::ListenUci() {
     string str;
-    int quitFlag = 0;
+    int errorCode;
     cin.clear();
-    while (! quitFlag) {
+    while (true) {
         getline(cin, str);
-        quitFlag = ParseLine(str);
+        errorCode = ParseLine(str);
     }
 }    
 
@@ -34,7 +34,6 @@ int UciParser::ParseLine(string str) {
     // l'interpretation
     if (lCommand== "id") {
             out.Id();
-            return 0;
     }
     
     if (lCommand== "debug") {
@@ -45,34 +44,28 @@ int UciParser::ParseLine(string str) {
         if (lMainParam == "off") {
             debug = 0;
         }
-        return 0;
     }
     
     if (lCommand== "uci") {
         out.Id();
         out.OptionsList();
         out.UciOk();
-        return 0;
     }
     
     if (lCommand== "isready") {
         out.ReadyOk();
-        return 0;
     }
     
     if (lCommand== "setoption") {
             // later
-        return 0;
     }
     
     if (lCommand== "register") {
             // later
-        return 0;
     }
     
     if (lCommand== "ucinewgame") {
         engine.Stop();
-        return 0;
     }
     
     if (lCommand == "position") { //  position [fen <fenstring> | startpos ]  moves <move1> .... <movei>
@@ -85,13 +78,11 @@ int UciParser::ParseLine(string str) {
             string fenstring = results[2];
             engine.SetFen(fenstring);
             movesParamIndex ++;
-        } else {
-            return 1; // position non reconnue
         }
         
         if (results.size() <= movesParamIndex) {
             // commande position terminée sans moves derriere
-            return 0;
+            return 1;
         }
         
         if (results[movesParamIndex] == "moves") {
@@ -107,11 +98,9 @@ int UciParser::ParseLine(string str) {
             }
         } else {
             // parametre inconnu
-            return 1;
         }
         
         if (debug) engine.ShowPos();
-        return 0; // fin commande position
     }
     
     if (lCommand== "go") {
@@ -158,22 +147,18 @@ int UciParser::ParseLine(string str) {
             lParamIndex += 2;
         }
         engine.Start();
-        return 0;
     }
     
     if (lCommand== "stop") {
         engine.Stop();
-        return 0;
     }
     
     if (lCommand== "ponderhit") {
         // TODO
-        return 0;
     }
     
     if (lCommand == "quit") {
         engine.Stop();
-        return 0;
     }
     
     // ==============
@@ -184,13 +169,12 @@ int UciParser::ParseLine(string str) {
     if (lCommand == "1") {
         ParseLine("position startpos");
         ParseLine("showpos");
-        return 0;
     }
     if (lCommand == "2") {
         ParseLine("position startpos moves e2e4 e7e5 d2d4 e5d4 c2c4");
         ParseLine("showpos");
-        return 0;
-    }    
-    return 1; // commande non reconnue
+    }   
+    
+    return 0;
 }
 
