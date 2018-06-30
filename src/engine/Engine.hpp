@@ -13,8 +13,6 @@ class Engine  {
         Variante mCurrentVariante;
         Variante mBestVariante;
     
-        bool ItsTimeToStopCompute();
-        
     public:
         int depthLimit;
         int msLimit;
@@ -38,6 +36,7 @@ class Engine  {
     
     // display
     void ShowPos();
+    void ShowNodesCounter();
     void ShowBestMove();
     void ShowBestVariante();
     void ShowCurrentVariante();

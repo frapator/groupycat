@@ -21,9 +21,7 @@ using namespace Common;
      Piece Board::GetPiece(Position p) { return pos[p.x][p.y]; }
      
      void Board::SetPiece(Position _pos, Piece _piece) {
-        if (debug>0) std::cout << "set " << _pos.to_string() << " = " << _piece.to_char() << endl;
         pos[_pos.x][_pos.y] = _piece;
-        if (debug>0) std::cout << "SetPiece :  pos " << _pos.x << "," << _pos.y << " = " << pos[_pos.x][_pos.y].to_string() << endl;
     }
     
     void Board::ClearPosition(Position _pos)  {
@@ -60,7 +58,6 @@ using namespace Common;
         
         // on copie la piece sur la cible
         Piece lOrigPiece = GetPiece(pMove.orig);
-        if (debug > 0) std::cout << "piece " << lOrigPiece.to_string() << std::endl;
         SetPiece(pMove.dest, lOrigPiece.to_char());
         
         // on efface la position initiale
