@@ -29,7 +29,6 @@ using namespace Common;
     std::vector <AMove> Board::GetPossibleMoves() {
         std::vector <AMove> lMoves;
         
-        cout << "Searching possible moves from following position ... " << endl;
         if (Common::debug) cout << "Searching possible moves from following position : " << endl;
         if (Common::debug) Show();
         
