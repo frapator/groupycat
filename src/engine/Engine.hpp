@@ -15,12 +15,13 @@ class Engine  {
     
     public:
         int depthLimit;
-        int msLimit;
-        int nodesLimit;
-        int nodesCounter;
+        unsigned long long msLimit;
+        unsigned long long nodesLimit;
+        unsigned long long nodesCounter;
         
         Engine();
-        void Move(AMove pMove);    
+        void MoveCurrent(AMove pMove);
+        void UnMoveCurrent();
     
     // init
     void SetStartPos();    

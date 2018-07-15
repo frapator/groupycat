@@ -15,9 +15,9 @@ using namespace Common;
 
 Engine::Engine() {
         thread_stop_command = false;
-        depthLimit = 0;
-        msLimit = 0;
-        nodesLimit = 0;
+        depthLimit = 20;
+        msLimit = 1000;
+        nodesLimit = ULLONG_MAX;
         nodesCounter = 0;
         //mCurrentVariante = new Variante();
         //mBestVariante = new Variante();
@@ -45,10 +45,11 @@ void Engine::Start() {
         // le moteur tourne
         // on récupere son résultat de temps en temps
         usleep(50*1000); // 50 ms
-        ShowBestVariante();
-        ShowCurrentVariante();
-        ShowNodesCounter();
-        
+        if (false) {
+            ShowBestVariante();
+            ShowCurrentVariante();
+            ShowNodesCounter();
+        }
         if (nodesCounter >= nodesLimit) break;
     }
     
@@ -63,8 +64,16 @@ void Engine::Stop() {
     if (Common::debug) cout << "stopped" << endl;
 }
 
-void Engine::Move(AMove pMove) {
+void Engine::MoveCurrent(AMove pMove) {
     board.Move(pMove);
+    mCurrentVariante.push_back(pMove);
+    if (Common::debug) ShowCurrentVariante();
+}
+
+void Engine::UnMoveCurrent() {
+    AMove lMove = mCurrentVariante.back();
+    mCurrentVariante.pop_back();
+    board.UnMove(lMove);
 }
 
 void Engine::ShowPos() {
@@ -97,8 +106,7 @@ void Engine::ShowBestVariante() {
 void Engine::Run() {
     if (Common::debug) cout << "running ..." << endl;
     SearchBestMove();
-    ShowBestVariante();
-    ShowBestMove();
+    if (Common::debug) cout << "run finished." << endl;
 }
 
 // Search
@@ -141,37 +149,37 @@ void Engine::SearchBestMove() {
         if (Common::debug) cout << "move evaluated n°" << i << " : " << moves[i].to_string() << endl;
         
         // on réalise le déplacement
-        board.Move(moves[i]);
-        mCurrentVariante.push_back(moves[i]);
-        if (Common::debug) { ShowCurrentVariante(); }
+        MoveCurrent(moves[i]);
         
         // gestion des conditions d'arret
-        if (thread_stop_command) {
-            // si on n'a plus de temps, on arrete la recherche et on evalue
-            eval = board.Evaluate();
-            return;
-            
-        } else {
+        if (! thread_stop_command) {
             // on continue la recherche
             SearchBestMove();
         }
 
-        // verifie si on a trouvé un meilleur coup
+        // si on arrete la recherche et on evalue
+        eval = board.Evaluate();
+
+        // verifie si on a trouvé un meilleur coup (selon la couleur)
         if (board.trait == Color::white) {
             best_eval_found = best_move.eval > max_eval;
         } else {
             best_eval_found = best_move.eval < min_eval;
         }
-        if (best_eval_found) {
+        
+        // enregistrer le meilleur coup
+        if (best_eval_found || mBestVariante.size() == 0) {
                 best_eval = eval;
                 best_eval_index = i;
                 best_move = moves[i];
                 best_move.eval = eval;
+                
+                if (Common::debug) cout << "found best eval : " << best_eval << endl;
+                mBestVariante = Variante(mCurrentVariante);
         }
         
         // on annul le déplacement
-        board.UnMove(moves[i]);
-        mCurrentVariante.pop_back();
+        UnMoveCurrent();
     }
     
     if (Common::debug) cout << "searchBestMove finished" << endl;

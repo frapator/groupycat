@@ -94,7 +94,7 @@ int UciParser::ParseLine(string str) {
                 AMove move = AMove(s);
                 if (Common::debug) cout << "move found " << move.to_string() << endl;
                 movesParamIndex ++;
-                engine.Move(move);
+                engine.MoveCurrent(move);
             }
         } else {
             // parametre inconnu
